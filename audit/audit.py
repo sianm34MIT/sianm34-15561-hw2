@@ -1,4 +1,4 @@
-"""Independent recomputation of headline figures from the raw workbook."""
+"""Recompute headline figures independently from the raw workbook."""
 import json
 import sys
 from pathlib import Path
@@ -18,6 +18,18 @@ fails = []
 
 
 def check(label, ours, theirs, tol=0.005):
+    """Compare an audit figure with the published one and record misses.
+
+    Args:
+        label (str): Name printed with the result.
+        ours (Any): Value recomputed here from the raw workbook.
+        theirs (Any): Value read from the JSON outputs.
+        tol (float): Relative tolerance, used only when ``ours`` is a
+            float (scaled by ``max(1, abs(ours))``).
+
+    Returns:
+        None. Prints OK or FAIL; appends ``label`` to ``fails`` on FAIL.
+    """
     ok = (ours == theirs) if not isinstance(ours, float) else (
         abs(ours - theirs) <= tol * max(1, abs(ours)))
     print(("OK  " if ok else "FAIL"), label, ours, theirs)
@@ -105,6 +117,16 @@ print("late orders per employee", sh[late].groupby("EmployeeID").size().to_dict(
 
 # ---- Q1 windows
 def win(df, a, b):
+    """Return rows whose order date falls between two dates, inclusive.
+
+    Args:
+        df (pandas.DataFrame): Table with an ``OrderDate`` column.
+        a (str): First date (``YYYY-MM-DD``).
+        b (str): Last date (``YYYY-MM-DD``).
+
+    Returns:
+        pandas.DataFrame: Matching rows.
+    """
     return df[(df.OrderDate >= a) & (df.OrderDate <= b)]
 A, B = win(O2, "1996-07-01", "1997-04-30"), win(O2, "1997-07-01", "1998-04-30")
 q = J["q1_growth"]

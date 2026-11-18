@@ -1,3 +1,4 @@
+"""Build the Overview and Explore tab data (overview.json)."""
 import json
 from pathlib import Path
 
@@ -13,12 +14,33 @@ OUT_JSON = ROOT / "site" / "data" / "overview.json"
 
 
 def r(x, nd=2):
+    """Round a number for JSON output, mapping missing values to None.
+
+    Args:
+        x (float | int | None): Value to round.
+        nd (int): Decimal places.
+
+    Returns:
+        float | None: Rounded value, or None if ``x`` is None or NaN.
+    """
     if x is None or (isinstance(x, float) and np.isnan(x)):
         return None
     return round(float(x), nd)
 
 
 def records(df):
+    """Convert a DataFrame to JSON-ready row dictionaries.
+
+    NaN becomes None, numpy integers and booleans become Python types,
+    numpy floats are rounded to 2 places, and timestamps become
+    ``YYYY-MM-DD`` strings.
+
+    Args:
+        df (pandas.DataFrame): Table to convert.
+
+    Returns:
+        list[dict[str, Any]]: One dictionary per row.
+    """
     out = df.replace({np.nan: None}).to_dict(orient="records")
     for row in out:
         for k, v in row.items():
@@ -34,6 +56,18 @@ def records(df):
 
 
 def overview_section(t, lines, orders):
+    """Build the Overview tab data.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        dict[str, Any]: Headline KPIs, monthly revenue with an
+            exponential trend, growth rates, revenue by category and by
+            year, and row counts for each source table.
+    """
     monthly = (
         lines[lines["Month"] <= LAST_FULL_MONTH]
         .groupby("Month")
@@ -100,6 +134,16 @@ def overview_section(t, lines, orders):
 
 
 def products_section(t, lines):
+    """Build the Explore > Products tab data.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        dict[str, Any]: Product KPIs, category summary, list-price
+            histogram, and a per-product table sorted by revenue.
+    """
     p = t["products"].merge(
         t["categories"][["CategoryID", "CategoryName"]], on="CategoryID"
     ).merge(
@@ -175,6 +219,17 @@ def products_section(t, lines):
 
 
 def suppliers_section(t, lines):
+    """Build the Explore > Suppliers tab data.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        dict[str, Any]: Supplier KPIs (including the HHI of revenue
+            shares), revenue by supplier country, and a per-supplier
+            table sorted by revenue.
+    """
     s = t["suppliers"].copy()
     prod = t["products"].merge(
         t["categories"][["CategoryID", "CategoryName"]], on="CategoryID"
@@ -224,6 +279,18 @@ def suppliers_section(t, lines):
 
 
 def employees_section(t, lines, orders):
+    """Build the Explore > Employees tab data.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        dict[str, Any]: Employee KPIs, quarterly revenue per employee
+            (full months only), and a per-employee table sorted by
+            revenue.
+    """
     e = t["employees"].copy()
     o = orders.copy()
     agg = o.groupby("EmployeeID").agg(
@@ -285,6 +352,18 @@ def employees_section(t, lines, orders):
 
 
 def orders_customers_section(t, lines, orders):
+    """Build the Explore > Orders & customers tab data.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        dict[str, Any]: Order KPIs, per-shipper freight and lateness,
+            days-to-ship histogram, top 15 customers, and revenue by
+            customer country.
+    """
     full = orders[orders["Month"] <= LAST_FULL_MONTH]
     ship = orders.merge(
         t["shippers"].rename(columns={"ShipperID": "ShipVia",
@@ -348,6 +427,14 @@ def orders_customers_section(t, lines, orders):
 
 
 def main():
+    """Build the Overview and Explore data and write ``OUT_JSON``.
+
+    Args:
+        None.
+
+    Returns:
+        None. Writes the JSON file and prints its path.
+    """
     t = load_tables()
     lines = build_order_lines(t)
     orders = build_order_summary(t, lines)
