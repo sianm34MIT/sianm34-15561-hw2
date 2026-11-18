@@ -1,0 +1,1183 @@
+<title>Northwind Data Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: MIT Sloan house style (matches the NYC Module site) — white top bar, black hero with red rule,
+   sticky segmented tab bar, grey content band with square white panels. Light theme only, by design. */
+:root {
+  --red: #A31F34;
+  --red-dark: #7E1727;
+  --red-tint: #F6E9EB;
+  --black: #000;
+  --ink: #111;
+  --text: #222;
+  --ink-2: #4B4C4E;
+  --muted: #6F7072;
+  --gray: #8A8B8C;
+  --line: #E3E3E3;
+  --line-2: #CFCFCF;
+  --bg: #FFFFFF;
+  --bg-2: #F5F5F5;
+  --surface: #FFFFFF;
+  --axis: #C9C9C9;
+  --accent: var(--red);
+  --accent-soft: var(--red-tint);
+  --series-1: #2F6DB5;
+  --series-2: #A31F34;
+  --series-3: #8A8B8C;
+  --warn: #8A6D1A;
+  --warn-soft: #FBF3DC;
+  --crit: #A31F34;
+  --font-display: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+  --gutter: max(24px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 40; background: #fff; }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--ink); letter-spacing: -0.02em; margin: 0; }
+a { color: inherit; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 560px) { .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
+
+/* top bar */
+.topbar { background: #fff; border-bottom: 1px solid var(--line); }
+.topbar .wrap { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+.brand-mark { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--black); white-space: nowrap; }
+.brand-sub { font-size: 0.82rem; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--line-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topnav { display: flex; gap: 24px; }
+.topnav a { font-size: 0.88rem; font-weight: 600; text-decoration: none; color: var(--ink); padding: 19px 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+.topnav a:hover { border-bottom-color: var(--red); color: var(--red); }
+@media (max-width: 720px) { .topnav { display: none; } }
+
+/* hero */
+.hero { background: #000; color: #fff; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; background:
+  radial-gradient(120% 140% at 100% 0%, rgba(163,31,52,0.35) 0%, transparent 55%),
+  repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 72px); }
+.hero .wrap { position: relative; padding-block: 72px 56px; }
+.hero .eyebrow { color: #fff; opacity: 0.85; }
+.hero h1 { color: #fff; font-size: clamp(2.4rem, 6.5vw, 4.6rem); line-height: 1; font-weight: 800; letter-spacing: -0.035em; max-width: 14ch; text-wrap: balance; }
+.rule { width: 56px; height: 4px; background: var(--red); margin: 26px 0 22px; }
+.hero-meta { font-size: 1.05rem; color: #E6E6E6; margin: 0 0 30px; display: flex; flex-wrap: wrap; gap: 0.5rem; font-weight: 500; }
+.hero-meta .dot { color: var(--red); }
+.hero-nav { display: flex; gap: 10px; flex-wrap: wrap; }
+body.compact .hero .wrap { padding-block: 32px 28px; }
+body.compact .hero h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); max-width: none; }
+body.compact .rule { margin: 14px 0 12px; }
+body.compact .hero-meta { margin: 0; }
+body.compact .hero-nav { display: none; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.3rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1px solid transparent; transition: background 0.15s, color 0.15s; }
+.btn-primary { background: var(--red); color: #fff; }
+.btn-primary:hover { background: var(--red-dark); }
+.btn-ghost { border-color: rgba(255,255,255,0.7); color: #fff; }
+.btn-ghost:hover { background: #fff; color: #000; }
+
+/* sticky tab bar */
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: #fff; border-bottom: 1px solid var(--line); }
+nav.tabs .wrap { padding-block: 12px; }
+.tabrow { display: flex; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--line-2); width: max-content; max-width: 100%; }
+.tabrow::-webkit-scrollbar { display: none; }
+.tabrow a { display: block; text-decoration: none; padding: 8px 16px; border-right: 1px solid var(--line-2); color: var(--ink); white-space: nowrap; background: #fff; }
+.tabrow a:last-child { border-right: 0; }
+.tabrow a small { display: block; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.tabrow a span { font-size: 0.98rem; font-weight: 700; letter-spacing: -0.01em; }
+.tabrow a.q small { color: var(--red); }
+.tabrow a:hover { background: var(--bg-2); }
+.tabrow a[aria-current="page"] { background: #000; color: #fff; }
+.tabrow a[aria-current="page"] small { color: #BDBDBD; }
+.tabrow .sep { width: 4px; background: var(--red); flex: none; }
+a:focus-visible, button:focus-visible, input:focus-visible, th:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+/* content */
+main { background: var(--bg-2); border-top: 1px solid var(--line); }
+main .wrap { padding-block: 40px 80px; display: grid; gap: 24px; }
+section.view { display: grid; gap: 24px; }
+.eyebrow { display: block; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); font-weight: 700; }
+.lede { display: grid; gap: 8px; }
+.lede h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); line-height: 1.08; font-weight: 800; }
+.lede p { margin: 0; color: var(--muted); max-width: 72ch; }
+.qhead { display: grid; gap: 10px; }
+.qhead h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.08; font-weight: 800; max-width: 30ch; text-wrap: balance; }
+.subhead { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-top: 12px; padding-bottom: 10px; border-bottom: 2px solid #000; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.subhead small { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); font-weight: 700; }
+
+/* KPI strip: black heads with a red underline, like the schedule day headers */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: #2a2a2a; border-bottom: 4px solid var(--red); }
+.kpi { background: #000; color: #fff; padding: 16px 18px 14px; display: grid; gap: 2px; align-content: start; }
+.kpi .label { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: #BDBDBD; font-weight: 700; }
+.kpi .value { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; overflow-wrap: anywhere; }
+.kpi .sub { font-size: 0.78rem; color: #BDBDBD; }
+
+.kpi.link { text-decoration: none; position: relative; transition: background 0.15s; display: flex; flex-direction: column; gap: 2px; }
+.kpi.link .go { margin-top: auto; padding-top: 10px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: #fff; opacity: 0.55; transition: opacity 0.15s, color 0.15s; }
+.kpi.link:hover { background: #1a1a1a; }
+.kpi.link:hover .go, .kpi.link:focus-visible .go { opacity: 1; color: #E8A3AE; }
+.kpi.link:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+
+#ov-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 560px) { #ov-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* panels */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.grid .span2 { grid-column: 1 / -1; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: #fff; border: 1px solid var(--line); padding: 20px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.panel h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+.note { font-size: 0.82rem; color: var(--muted); margin: 0; }
+.chart { position: relative; width: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.8rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+.legend span.dash::before { height: 0; width: 16px; border-top: 2px dashed var(--c); background: none; vertical-align: 3px; }
+
+/* tables */
+.tablebox { overflow-x: auto; max-height: 460px; overflow-y: auto; border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { position: sticky; top: 0; z-index: 1; background: #fff; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--muted); border-bottom: 2px solid #000; cursor: pointer; user-select: none; }
+th[data-sort="asc"]::after { content: " ▲"; font-size: 8px; color: var(--red); }
+th[data-sort="desc"]::after { content: " ▼"; font-size: 8px; color: var(--red); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.wrapcell { white-space: normal; min-width: 180px; }
+tbody tr:hover { background: var(--bg-2); }
+.heat td.cell { text-align: right; font-variant-numeric: tabular-nums; font-size: 0.8rem; }
+.pill { display: inline-block; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; padding: 2px 6px; vertical-align: 1px; }
+.pill.crit { background: var(--red); color: #fff; }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.off { border: 1px solid var(--line-2); color: var(--muted); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+input[type="search"] { font: inherit; font-size: 0.86rem; padding: 7px 12px; border: 1px solid var(--line-2); background: #fff; color: var(--ink); width: 260px; max-width: 100%; min-width: 0; }
+input[type="search"]:focus { border-color: #000; }
+code { font-family: var(--font-mono); font-size: 0.82em; background: var(--bg-2); border: 1px solid var(--line); padding: 0 4px; }
+
+/* question framing and conclusions */
+.framing { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+@media (max-width: 860px) { .framing { grid-template-columns: minmax(0, 1fr); } }
+.framing h3, .callout h3, .questions h3 { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); font-weight: 700; margin: 0 0 8px; }
+.framing p, .framing ol { margin: 0; max-width: 68ch; }
+.framing ol { padding-left: 18px; display: grid; gap: 6px; }
+.multiples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 860px) { .multiples { grid-template-columns: minmax(0, 1fr); } }
+.multiples h4 { font-size: 0.9rem; font-weight: 700; }
+.multiples .delta { font-size: 0.8rem; color: var(--muted); }
+.callouts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 860px) { .callouts { grid-template-columns: minmax(0, 1fr); } }
+.callout { background: #fff; border: 1px solid var(--line); border-left: 4px solid #000; padding: 20px 22px; }
+.callout h3 { color: var(--ink); }
+.callout.impl { background: var(--red-tint); border-color: #EBCFD4; border-left-color: var(--red); }
+.callout.impl h3 { color: var(--red); }
+.callout p { margin: 0 0 10px; max-width: 70ch; }
+.callout p:last-child { margin: 0; }
+.callout ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.callout ul li, .gaps li { position: relative; padding-left: 18px; }
+.callout ul li::before, .gaps li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px; background: var(--red); }
+.questions { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--red); padding: 18px 22px; }
+.questions ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.notes-list { margin: 0; padding-left: 20px; display: grid; gap: 12px; max-width: 80ch; }
+.notes-list b { font-weight: 700; color: var(--ink); }
+.spec { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 18px; margin: 0; }
+.spec dt { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--muted); padding-top: 4px; }
+.spec dd { margin: 0; }
+@media (max-width: 560px) { .spec { grid-template-columns: minmax(0, 1fr); gap: 2px; } .spec dd { margin-bottom: 10px; } }
+.gaps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.gaps b { font-weight: 700; color: var(--ink); }
+.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+@media (max-width: 860px) { .stages { grid-template-columns: minmax(0, 1fr); } }
+.stage { padding: 0 0 14px; display: grid; gap: 6px; align-content: start; border-right: 1px solid var(--line); background: #fff; }
+.stage:last-child { border-right: 0; }
+@media (max-width: 860px) { .stage { border-right: 0; border-bottom: 1px solid var(--line); } .stage:last-child { border-bottom: 0; } }
+.stage .when { display: block; background: #000; color: #BDBDBD; padding: 12px 16px 10px; border-bottom: 4px solid var(--red); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; }
+.stage b { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); padding: 6px 16px 0; }
+.stage p { margin: 0; color: var(--ink-2); font-size: 0.88rem; padding: 0 16px; }
+footer.foot { background: #000; color: #BDBDBD; font-size: 0.8rem; }
+footer.foot .wrap { padding-block: 28px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+footer.foot b { color: #fff; }
+
+.jump { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 4px; }
+.jump > span { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-right: 4px; }
+.jump button, .totop { font: inherit; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--line-2); background: #fff; color: var(--ink); padding: 6px 12px; cursor: pointer; }
+.jump button:hover, .totop:hover { border-color: #000; }
+.jump button.hot { border-color: var(--red); color: var(--red); }
+.jump button.hot:hover { background: var(--red); color: #fff; }
+.totop { border-color: transparent; background: none; color: var(--muted); padding-left: 0; }
+.totop:hover { color: var(--red); border-color: transparent; }
+.qhead, .callout, .kpis, .framing { scroll-margin-top: 96px; }
+@keyframes flashbox { 0%, 35% { box-shadow: 0 0 0 3px var(--red); } 100% { box-shadow: 0 0 0 3px transparent; } }
+.flash { animation: flashbox 1.6s ease 1; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#overview"><span class="brand-mark">MIT Sloan</span><span class="brand-sub">15.561 · Homework 3</span></a>
+    <nav class="topnav" aria-label="Shortcuts">
+      <a href="#growth">Business questions</a>
+      <a href="#products">Explore the data</a>
+      <a href="#notes">Data notes</a>
+    </nav>
+  </div>
+</header>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">AI-assisted business data analysis · Northwind database</span>
+    <h1 id="hero-title">Northwind Traders</h1>
+    <div class="rule"></div>
+    <p class="hero-meta" id="meta"></p>
+    <div class="hero-nav">
+      <a class="btn btn-primary" href="#growth">Q1 · What's driving growth</a>
+      <a class="btn btn-ghost" href="#product-risk">Q2 · Product risk</a>
+      <a class="btn btn-ghost" href="#sellers">Q3 · Dedicated sellers</a>
+    </div>
+  </div>
+</section>
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap">
+    <div class="tabrow" id="tabbar">
+      <a href="#overview"><small>Start</small><span>Overview</span></a>
+      <span class="sep" aria-hidden="true"></span>
+      <a class="q" href="#growth"><small>Question 1</small><span>Growth drivers</span></a>
+      <a class="q" href="#product-risk"><small>Question 2</small><span>Product risk</span></a>
+      <a class="q" href="#sellers"><small>Question 3</small><span>Dedicated sellers</span></a>
+      <span class="sep" aria-hidden="true"></span>
+      <a href="#products"><small>Explore</small><span>Products</span></a>
+      <a href="#suppliers"><small>Explore</small><span>Suppliers</span></a>
+      <a href="#employees"><small>Explore</small><span>Employees</span></a>
+      <a href="#orders"><small>Explore</small><span>Orders &amp; customers</span></a>
+      <a href="#notes"><small>Method</small><span>Data notes</span></a>
+    </div>
+  </div>
+</nav>
+
+<main><div class="wrap">
+
+<section class="view" id="view-overview">
+  <div class="lede"><h2>The business at a glance</h2>
+    <p>Revenue is net of discounts: unit price × quantity × (1 − discount), from Orders Details. Orders run from July 4, 1996 to May 6, 1998.</p></div>
+  <div class="kpis" id="ov-kpis"></div>
+  <div class="grid">
+    <div class="panel span2"><h3>Monthly revenue, Jul 1996 – Apr 1998</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Net revenue</span><span class="dash" style="--c:var(--ink-2)">Growth trend</span></div>
+      <p class="note" id="ov-trend-note">May 1998 is left out because it holds only 6 days of orders.</p>
+      <div class="chart" style="height:280px"><canvas id="ov-monthly" aria-label="Monthly revenue line chart"></canvas></div></div>
+    <div class="panel"><h3>Revenue by product category</h3>
+      <div class="chart" style="height:300px"><canvas id="ov-cat"></canvas></div></div>
+    <div class="panel"><h3>What each table holds</h3>
+      <div class="tablebox"><table id="ov-tables"></table></div>
+      <h3>Coverage by year</h3>
+      <div class="tablebox"><table id="ov-years"></table></div>
+      <p class="note">1996 and 1998 are partial years, so compare months, not annual totals.</p></div>
+  </div>
+</section>
+
+<section class="view" id="view-growth" hidden>
+  <div class="qhead"><span class="eyebrow">Business question 1</span>
+    <h2>What is driving Northwind's revenue growth, and how dependent is it on a few customers?</h2>
+    <div class="jump" role="navigation" aria-label="Jump within question 1"><span>Jump to</span>
+      <button type="button" data-jump="q1-why">Why it matters</button>
+      <button type="button" data-jump="q1-kpis">Key numbers</button>
+      <button type="button" data-jump="q1-finding" class="hot">Main finding</button>
+      <button type="button" data-jump="q1-impl" class="hot">Business implication</button>
+    </div></div>
+  <div class="framing panel">
+    <div><h3>Why it matters</h3>
+      <p id="q1-why"></p></div>
+    <div><h3>Approach</h3>
+      <ol id="q1-approach"></ol></div>
+  </div>
+  <div class="kpis" id="q1-kpis"></div>
+  <div class="grid">
+    <div class="panel span2"><h3>Where the extra revenue came from</h3>
+      <p class="note" id="q1-wf-note"></p>
+      <div class="chart" style="height:300px"><canvas id="q1-waterfall" aria-label="Waterfall of revenue growth by driver"></canvas></div></div>
+    <div class="panel span2"><h3>Month by month: more orders, not bigger ones</h3>
+      <p class="note">Each chart has its own scale. Jul 1996 – Apr 1998.</p>
+      <div class="multiples">
+        <div><h4>Orders per month</h4><span class="delta" id="q1-m1"></span><div class="chart" style="height:170px"><canvas id="q1-orders"></canvas></div></div>
+        <div><h4>Customers ordering per month</h4><span class="delta" id="q1-m2"></span><div class="chart" style="height:170px"><canvas id="q1-cust"></canvas></div></div>
+        <div><h4>Average order value</h4><span class="delta" id="q1-m3"></span><div class="chart" style="height:170px"><canvas id="q1-aov"></canvas></div></div>
+      </div></div>
+    <div class="panel"><h3>Biggest changes in customer revenue</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Grew</span><span style="--c:var(--crit)">Shrank</span></div>
+      <div class="chart" style="height:460px"><canvas id="q1-cust-change"></canvas></div>
+      <p class="note">Top 12 increases and the 5 largest declines, comparing the two windows.</p></div>
+    <div class="panel"><h3>How concentrated is the growth?</h3>
+      <div class="chart" style="height:300px"><canvas id="q1-curve"></canvas></div>
+      <p class="note" id="q1-curve-note"></p>
+      <h3>Growth by customer type</h3>
+      <div class="tablebox"><table id="q1-seg"></table></div></div>
+  </div>
+  <div class="callouts">
+    <div class="callout"><h3>Main finding</h3><p id="q1-finding"></p></div>
+    <div class="callout impl"><h3>Business implication</h3><p id="q1-impl"></p><ul id="q1-actions"></ul></div>
+  </div>
+  <p class="note" id="q1-caveat"></p>
+  <div><button type="button" class="totop" data-jump="top">↑ Back to the question</button></div>
+</section>
+
+<section class="view" id="view-product-risk" hidden>
+  <div class="qhead"><span class="eyebrow">Business question 2</span>
+    <h2>How much of Northwind's revenue rests on a few products, and how much of it is about to disappear?</h2>
+    <div class="jump" role="navigation" aria-label="Jump within question 2"><span>Jump to</span>
+      <button type="button" data-jump="q2-why">Why it matters</button>
+      <button type="button" data-jump="q2-kpis">Key numbers</button>
+      <button type="button" data-jump="q2-finding" class="hot">Main finding</button>
+      <button type="button" data-jump="q2-impl" class="hot">Business implication</button>
+    </div></div>
+  <div class="framing panel">
+    <div><h3>Why it matters</h3><p id="q2-why"></p></div>
+    <div><h3>Approach</h3><ol id="q2-approach"></ol></div>
+  </div>
+  <div class="kpis" id="q2-kpis"></div>
+  <div class="grid">
+    <div class="panel span2"><h3>Top 20 products by revenue</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Premium (active)</span><span style="--c:var(--series-2)">Discontinued</span><span style="--c:var(--axis)">Other</span></div>
+      <div class="chart" style="height:520px"><canvas id="q2-rank" aria-label="Top 20 products ranked by revenue"></canvas></div>
+      <p class="note" id="q2-rank-note"></p></div>
+    <div class="panel"><h3>Share of revenue by quarter</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Premium products</span><span style="--c:var(--series-2)">Discontinued products</span></div>
+      <div class="chart" style="height:260px"><canvas id="q2-quarterly"></canvas></div>
+      <p class="note">Q2 1998 covers April only.</p></div>
+    <div class="panel"><h3 id="q2-star-title"></h3>
+      <div class="chart" style="height:260px"><canvas id="q2-star"></canvas></div>
+      <p class="note" id="q2-star-note"></p></div>
+    <div class="panel span2"><h3>Revenue by category: active vs discontinued</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Active products</span><span style="--c:var(--series-2)">Discontinued products</span></div>
+      <div class="chart" style="height:300px"><canvas id="q2-cats"></canvas></div></div>
+  </div>
+  <div class="callouts">
+    <div class="callout"><h3>Main finding</h3><p id="q2-finding"></p></div>
+    <div class="callout impl"><h3>Business implication</h3><p id="q2-impl"></p><ul id="q2-actions"></ul></div>
+  </div>
+  <p class="note" id="q2-caveat"></p>
+  <div><button type="button" class="totop" data-jump="top">↑ Back to the question</button></div>
+</section>
+
+<section class="view" id="view-sellers" hidden>
+  <div class="qhead"><span class="eyebrow">Business question 3</span>
+    <h2>Is there a relationship between seller and sales? Would customers buy more if each had a dedicated seller?</h2>
+    <div class="jump" role="navigation" aria-label="Jump within question 3"><span>Jump to</span>
+      <button type="button" data-jump="q3-why">Why it matters</button>
+      <button type="button" data-jump="q3-kpis">Key numbers</button>
+      <button type="button" data-jump="q3-finding" class="hot">Main finding</button>
+      <button type="button" data-jump="q3-impl" class="hot">Business implication</button>
+    </div></div>
+  <div class="framing panel">
+    <div><h3>Why it matters</h3><p id="q3-why"></p></div>
+    <div><h3>Approach</h3><ol id="q3-approach"></ol></div>
+  </div>
+  <div class="kpis" id="q3-kpis"></div>
+
+  <div class="subhead">What the data tells us</div>
+  <div class="grid">
+    <div class="panel"><h3>Customers stick with a seller no more than chance would predict</h3>
+      <div class="chart" style="height:260px"><canvas id="q3-perm" aria-label="Seller loyalty compared with random routing"></canvas></div>
+      <p class="note" id="q3-perm-note"></p></div>
+    <div class="panel"><h3>When the same seller happens to take the next order</h3>
+      <div class="chart" style="height:190px"><canvas id="q3-effects" aria-label="Estimated effect of seller continuity with 95% ranges"></canvas></div>
+      <p class="note" id="q3-effects-note"></p></div>
+    <div class="panel span2"><h3>How many of the 9 sellers handled each top-20 account</h3>
+      <div class="legend"><span style="--c:var(--series-2)">15%+ of spend on discontinued products (Q2)</span><span style="--c:var(--series-1)">Less exposed</span></div>
+      <div class="chart" style="height:440px"><canvas id="q3-accounts"></canvas></div>
+      <p class="note" id="q3-accounts-note"></p></div>
+  </div>
+
+  <div class="subhead">What the data doesn't tell us</div>
+  <div class="panel"><ul class="gaps" id="q3-gaps"></ul></div>
+
+  <div class="subhead">Recommendation: test it <small>A/B pilot</small></div>
+  <div class="grid">
+    <div class="panel"><h3>Pilot design</h3><dl class="spec" id="q3-spec"></dl></div>
+    <div class="panel"><h3>What it could be worth</h3>
+      <div class="chart" style="height:200px"><canvas id="q3-scen"></canvas></div>
+      <p class="note" id="q3-scen-note"></p>
+      <h3>How big must the pilot be?</h3>
+      <div class="tablebox"><table id="q3-power"></table></div>
+      <p class="note" id="q3-power-note"></p></div>
+    <div class="panel span2"><h3>Expansion path</h3><div class="stages" id="q3-stages"></div></div>
+  </div>
+
+  <div class="callouts">
+    <div class="callout"><h3>Main finding</h3><p id="q3-finding"></p></div>
+    <div class="callout impl"><h3>Business implication</h3><p id="q3-impl"></p></div>
+  </div>
+  <p class="note" id="q3-caveat"></p>
+  <div><button type="button" class="totop" data-jump="top">↑ Back to the question</button></div>
+</section>
+
+<section class="view" id="view-products" hidden>
+  <div class="lede"><h2>Products &amp; categories</h2>
+    <p>77 products in 8 categories. Sales figures use the price charged on each order, which often differs from the list price in the Product table.</p></div>
+  <div class="kpis" id="pr-kpis"></div>
+  <div class="grid">
+    <div class="panel"><h3>Top 15 products by revenue</h3>
+      <div class="chart" style="height:420px"><canvas id="pr-top"></canvas></div></div>
+    <div class="panel"><h3>List price vs units sold</h3>
+      <div class="legend"><span style="--c:var(--series-1)">Active</span><span style="--c:var(--series-2)">Discontinued</span></div>
+      <div class="chart" style="height:390px"><canvas id="pr-scatter"></canvas></div>
+      <p class="note">Price axis is logarithmic. Hover a dot to see the product.</p></div>
+    <div class="panel"><h3>How products are priced</h3>
+      <div class="chart" style="height:260px"><canvas id="pr-hist"></canvas></div></div>
+    <div class="panel"><h3>Inventory watchlist</h3>
+      <p class="note">Active products with stock at or below their reorder level. <span class="pill crit">Act</span> means stock plus units on order still doesn't clear the reorder level.</p>
+      <div class="tablebox"><table id="pr-watch"></table></div></div>
+    <div class="panel span2"><h3>Categories compared</h3>
+      <div class="tablebox"><table id="pr-cats"></table></div></div>
+    <div class="panel span2">
+      <div class="toolbar"><h3>All products</h3><input type="search" id="pr-search" placeholder="Filter by product, category or supplier" aria-label="Filter products"></div>
+      <div class="tablebox"><table id="pr-all"></table></div>
+      <p class="note">Click a column header to sort.</p></div>
+  </div>
+  <div class="questions"><h3>Questions this raises</h3><ul id="pr-q"></ul></div>
+</section>
+
+<section class="view" id="view-suppliers" hidden>
+  <div class="lede"><h2>Suppliers</h2>
+    <p>Revenue is credited to the supplier of each product sold.</p></div>
+  <div class="kpis" id="su-kpis"></div>
+  <div class="grid">
+    <div class="panel"><h3>Revenue by supplier</h3>
+      <div class="chart" style="height:640px"><canvas id="su-bar"></canvas></div></div>
+    <div class="panel"><h3>Revenue by supplier country</h3>
+      <div class="chart" style="height:420px"><canvas id="su-country"></canvas></div>
+      <p class="note">Bars show net revenue; the tooltip adds supplier and product counts.</p></div>
+    <div class="panel span2"><h3>Supplier detail</h3>
+      <div class="tablebox"><table id="su-table"></table></div></div>
+  </div>
+  <div class="questions"><h3>Questions this raises</h3><ul id="su-q"></ul></div>
+</section>
+
+<section class="view" id="view-employees" hidden>
+  <div class="lede"><h2>Employees</h2>
+    <p>Each order is credited to the employee who took it. Late means shipped after the customer's required date.</p></div>
+  <div class="kpis" id="em-kpis"></div>
+  <div class="grid">
+    <div class="panel"><h3>Revenue by employee</h3>
+      <div class="chart" style="height:320px"><canvas id="em-rev"></canvas></div></div>
+    <div class="panel"><h3>Share of shipped orders that arrived late</h3>
+      <div class="chart" style="height:320px"><canvas id="em-late"></canvas></div>
+      <p class="note">Small counts: each employee has between 1 and 10 late orders.</p></div>
+    <div class="panel span2"><h3>Quarterly revenue by employee</h3>
+      <p class="note">Darker cells mean more revenue. Q3 1996 starts July 4; Q2 1998 holds April only.</p>
+      <div class="tablebox"><table id="em-heat" class="heat"></table></div></div>
+    <div class="panel span2"><h3>Employee detail</h3>
+      <div class="tablebox"><table id="em-table"></table></div></div>
+  </div>
+  <div class="questions"><h3>Questions this raises</h3><ul id="em-q"></ul></div>
+</section>
+
+<section class="view" id="view-orders" hidden>
+  <div class="lede"><h2>Orders, customers &amp; shippers</h2>
+    <p>How orders flow: who buys, where they are, and how quickly orders ship.</p></div>
+  <div class="kpis" id="or-kpis"></div>
+  <div class="grid">
+    <div class="panel"><h3>Revenue by customer country</h3>
+      <div class="chart" style="height:520px"><canvas id="or-country"></canvas></div></div>
+    <div class="panel"><h3>Days from order to shipment</h3>
+      <div class="chart" style="height:240px"><canvas id="or-days"></canvas></div>
+      <h3>Shippers</h3>
+      <div class="tablebox"><table id="or-ship"></table></div></div>
+    <div class="panel span2"><h3>Top 15 customers</h3>
+      <div class="tablebox"><table id="or-cust"></table></div></div>
+  </div>
+  <div class="questions"><h3>Questions this raises</h3><ul id="or-q"></ul></div>
+</section>
+
+<section class="view" id="view-notes" hidden>
+  <div class="lede"><h2>Data notes and limitations</h2>
+    <p>Choices made when preparing the numbers on this page.</p></div>
+  <div class="panel"><ol class="notes-list" id="notes"></ol></div>
+</section>
+
+</div></main>
+<footer class="foot"><div class="wrap"><span><b>Northwind Traders analysis</b> · 15.561, MIT Sloan, Fall 2026</span><span>Every figure is computed in Python from the course copy of the Northwind database.</span></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const DATA = /*__DATA__*/;
+
+const $ = (id) => document.getElementById(id);
+const money = (v, d = 0) => v == null ? "–" : "$" + Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const moneyK = (v) => v == null ? "–" : (Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(2) + "M" : "$" + Math.round(v / 1000) + "k");
+const pct = (v, d = 1) => v == null ? "–" : (v * 100).toFixed(d) + "%";
+const num = (v, d = 0) => v == null ? "–" : Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+/* ---------- KPI strips ---------- */
+function kpis(el, items) {
+  $(el).innerHTML = items.map(([label, value, sub, href]) => {
+    const inner = `<span class="label">${label}</span><span class="value">${value}</span>${sub ? `<span class="sub">${sub}</span>` : ""}`;
+    return href ? `<a class="kpi link" href="${href}" aria-label="${label}: ${value}. Explore">${inner}<span class="go">Explore →</span></a>` : `<div class="kpi">${inner}</div>`;
+  }).join("");
+}
+
+/* ---------- Sortable tables ---------- */
+function table(el, cols, rows, opts = {}) {
+  const t = $(el);
+  let state = { key: opts.sortKey || null, dir: opts.sortDir || "desc", filter: "" };
+  function render() {
+    let data = rows.slice();
+    if (state.filter) {
+      const q = state.filter.toLowerCase();
+      data = data.filter((r) => cols.some((c) => c.search && String(r[c.key] ?? "").toLowerCase().includes(q)));
+    }
+    if (state.key) {
+      data.sort((a, b) => {
+        const x = a[state.key], y = b[state.key];
+        if (x == null) return 1; if (y == null) return -1;
+        const cmp = typeof x === "number" ? x - y : String(x).localeCompare(String(y));
+        return state.dir === "asc" ? cmp : -cmp;
+      });
+    }
+    t.innerHTML = `<thead><tr>${cols.map((c) =>
+      `<th tabindex="0" class="${c.num ? "num" : ""}" data-key="${c.key}" ${state.key === c.key ? `data-sort="${state.dir}"` : ""}>${c.label}</th>`).join("")}</tr></thead>
+      <tbody>${data.map((r) => `<tr>${cols.map((c) =>
+        `<td class="${c.num ? "num" : ""} ${c.wrap ? "wrapcell" : ""}">${c.fmt ? c.fmt(r[c.key], r) : esc(r[c.key])}</td>`).join("")}</tr>`).join("")}</tbody>`;
+    t.querySelectorAll("th").forEach((th) => {
+      const go = () => {
+        const k = th.dataset.key;
+        state.dir = state.key === k && state.dir === "desc" ? "asc" : "desc";
+        state.key = k; render();
+      };
+      th.addEventListener("click", go);
+      th.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
+  }
+  render();
+  return { setFilter: (f) => { state.filter = f; render(); } };
+}
+
+/* ---------- Charts ---------- */
+const charts = [];
+const builders = [];
+const addChart = (view, fn) => builders.push({ view, fn });
+let currentView = "overview";
+function baseOpts() {
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { backgroundColor: css("--ink"), titleColor: css("--surface"), bodyColor: css("--surface"), padding: 10, cornerRadius: 6, displayColors: false },
+    },
+    scales: {},
+  };
+}
+function axis(extra = {}) {
+  return Object.assign({
+    grid: { color: css("--line"), drawTicks: false },
+    border: { color: css("--axis") },
+    ticks: { color: css("--ink-2"), padding: 6, font: { size: 11 } },
+    title: { color: css("--muted"), font: { size: 11 } },
+  }, extra);
+}
+function hbar(id, labels, values, fmt, tip, color = "--series-1") {
+  const o = baseOpts();
+  o.indexAxis = "y";
+  o.scales.x = axis({ ticks: { color: css("--ink-2"), callback: (v) => fmt(v), font: { size: 11 }, maxTicksLimit: 6 } });
+  o.scales.y = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 11 }, autoSkip: false } });
+  o.plugins.tooltip.callbacks = { label: (c) => tip ? tip(c.dataIndex) : fmt(c.raw) };
+  return new Chart($(id), { type: "bar", data: { labels, datasets: [{ data: values, backgroundColor: css(color), borderRadius: 4, borderSkipped: "start", maxBarThickness: 18, categoryPercentage: 0.8 }] }, options: o });
+}
+function vbar(id, labels, values, fmt, xTitle, yTitle) {
+  const o = baseOpts();
+  o.scales.x = axis({ grid: { display: false }, title: { display: !!xTitle, text: xTitle, color: css("--muted") } });
+  o.scales.y = axis({ beginAtZero: true, title: { display: !!yTitle, text: yTitle, color: css("--muted") }, ticks: { color: css("--ink-2"), precision: 0 } });
+  o.plugins.tooltip.callbacks = { label: (c) => fmt(c.raw) };
+  return new Chart($(id), { type: "bar", data: { labels, datasets: [{ data: values, backgroundColor: css("--series-1"), borderRadius: 4, borderSkipped: "start", maxBarThickness: 48 }] }, options: o });
+}
+
+function drawAll() {
+  charts.splice(0).forEach((c) => c.destroy());
+  if (typeof Chart === "undefined") { builders.filter((b) => b.view === currentView && b.noLib).forEach((b) => b.fn()); return; }
+  Chart.defaults.font.family = css("--font-body");
+  Chart.defaults.color = css("--ink-2");
+  builders.filter((b) => b.view === currentView).forEach((b) => { const c = b.fn(); if (c) charts.push(c); });
+}
+
+/* ---------- Overview ---------- */
+(function () {
+  const d = DATA.overview, k = d.kpis;
+  $("meta").innerHTML = `<span>Three business questions from ${num(k.orders)} orders</span><span class="dot">·</span><span>Jul 1996 – May 1998</span><span class="dot">·</span><span>${moneyK(k.revenue)} in revenue</span>`;
+  $("ov-trend-note").textContent = `Dashed line: exponential trend fitted to monthly revenue, growing ${pct(d.growth.monthlyRate)} a month (about ${pct(d.growth.annualRate, 0)} a year). May 1998 is left out because it holds only 6 days of orders.`;
+  kpis("ov-kpis", [
+    ["Net revenue", moneyK(k.revenue), `${moneyK(k.discounts)} given in discounts`, "#orders"],
+    ["Orders", num(k.orders), `${money(k.avgOrder)} average order`, "#orders"],
+    ["Customers", num(k.customers), `${k.customersActive} placed an order`, "#orders"],
+    ["Products", num(k.products), "in 8 categories", "#products"],
+    ["Suppliers", num(k.suppliers), "in 16 countries", "#suppliers"],
+    ["Employees", num(k.employees), "in the US and UK", "#employees"],
+  ]);
+  addChart("overview", () => {
+    const o = baseOpts();
+    const labels = d.monthly.map((m) => m.Month);
+    o.interaction = { mode: "index", intersect: false };
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink-2"), maxRotation: 0, autoSkipPadding: 14, callback: function (v) { const s = labels[v]; const [y, m] = s.split("-"); return m === "01" || v === 0 ? new Date(+y, +m - 1).toLocaleString("en-US", { month: "short" }) + " " + y : new Date(+y, +m - 1).toLocaleString("en-US", { month: "short" }); } } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v) }, title: { display: true, text: "Net revenue (USD)", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = {
+      title: (c) => { const [y, m] = labels[c[0].dataIndex].split("-"); return new Date(+y, +m - 1).toLocaleString("en-US", { month: "long", year: "numeric" }); },
+      label: (c) => c.datasetIndex === 0 ? `Actual ${money(c.raw)} · ${d.monthly[c.dataIndex].Orders} orders` : `Trend ${money(c.raw)}`,
+    };
+    return new Chart($("ov-monthly"), { type: "line", data: { labels, datasets: [{ data: d.monthly.map((m) => m.Revenue), borderColor: css("--series-1"), backgroundColor: css("--series-1") + "22", fill: true, borderWidth: 2, tension: 0.25, pointRadius: 0, pointHoverRadius: 5, pointHitRadius: 12 },
+      { data: d.monthly.map((m) => m.Trend), borderColor: css("--ink-2"), borderDash: [6, 4], borderWidth: 1.5, fill: false, pointRadius: 0, pointHoverRadius: 0, pointHitRadius: 0 }] }, options: o });
+  });
+  addChart("overview", () => hbar("ov-cat", d.byCategory.map((c) => c.CategoryName), d.byCategory.map((c) => c.Revenue), moneyK,
+    (i) => `${money(d.byCategory[i].Revenue)} (${pct(d.byCategory[i].Revenue / k.revenue)})`));
+  table("ov-tables", [
+    { key: "name", label: "Table" }, { key: "rows", label: "Rows", num: true, fmt: (v) => num(v) },
+    { key: "grain", label: "One row is…", wrap: true },
+  ], d.tables);
+  table("ov-years", [
+    { key: "Year", label: "Year" }, { key: "Months", label: "Months", num: true },
+    { key: "Orders", label: "Orders", num: true, fmt: (v) => num(v) },
+    { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) },
+    { key: "Revenue", label: "Per month", num: true, fmt: (v, r) => money(v / r.Months) },
+  ], d.byYear);
+})();
+
+/* ---------- Q1: growth drivers ---------- */
+(function () {
+  const d = DATA.q1, b = d.before, a = d.after, dec = d.decomposition, cc = d.concentration;
+  const seg = Object.fromEntries(d.segments.map((x) => [x.Segment, x]));
+  const growth = a.revenue / b.revenue - 1;
+  const freq = dec.find((x) => x.driver === "Orders per customer");
+  const fmtWin = (w) => { const f = (s) => new Date(s + "T00:00").toLocaleString("en-US", { month: "short", year: "numeric" }); return `${f(w[0])} – ${f(w[1])}`; };
+  const W = d.windows, winB = fmtWin(W.before), winA = fmtWin(W.after);
+  const top = d.customers[0], lead = d.customers.slice(0, 3);
+  const topShareAfter = top.After / a.revenue;
+
+  $("q1-why").textContent = `Revenue nearly doubled in a year. A manager needs to know whether that comes from a broad base, which is likely to last, or from a few accounts and a single lever, which is fragile. The answer decides where sales effort goes next: winning new customers, growing existing ones, or protecting the accounts the growth depends on.`;
+  $("q1-approach").innerHTML = [
+    `Compare the same ten calendar months a year apart, ${winB} versus ${winA}, so seasonality cancels out.`,
+    `Split revenue into active customers × orders per customer × average order value, and give each factor its share of the growth (log decomposition, so the three shares add to 100%).`,
+    `Track the three factors month by month to check the pattern isn't driven by one window.`,
+    `Rank customers by their change in revenue to measure how concentrated the growth is, and split customers into returning, new and lapsed.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+
+  kpis("q1-kpis", [
+    ["Revenue growth", "+" + pct(growth, 0), `${moneyK(b.revenue)} → ${moneyK(a.revenue)}`],
+    ["Orders per customer", "+" + pct(freq.change, 0), `${num(b.ordersPerCustomer, 1)} → ${num(a.ordersPerCustomer, 1)} · ${pct(freq.shareOfGrowth, 0)} of growth`],
+    ["From new customers", pct(seg.New.ShareOfGrowth, 0), `of growth · ${seg.New.Customers} new customers`],
+    ["Top 10 customers", pct(cc.top10Share, 0), `of growth · ${cc.customersForHalf} customers make up half`],
+  ]);
+  $("q1-wf-note").textContent = `${winB} vs ${winA}. Grey bars are period totals; blue bars are each driver's share of the ${moneyK(a.revenue - b.revenue)} increase.`;
+
+  addChart("growth", () => {
+    const labels = [`Before`, "More customers", "More orders per customer", "Bigger orders", "After"];
+    let run = b.revenue; const bars = [[0, b.revenue]];
+    dec.forEach((x) => { bars.push([run, run + x.dollars]); run += x.dollars; });
+    bars.push([0, a.revenue]);
+    const tips = [
+      `${winB}: ${money(b.revenue)}`,
+      ...dec.map((x) => `+${money(x.dollars)} (${pct(x.shareOfGrowth, 0)} of growth) · ${x.driver.toLowerCase()} +${pct(x.change)}`),
+      `${winA}: ${money(a.revenue)}`,
+    ];
+    const o = baseOpts();
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 12 } } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v) }, title: { display: true, text: "Net revenue over 10 months (USD)", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = { label: (c) => tips[c.dataIndex] };
+    const valueLabels = { id: "wfLabels", afterDatasetsDraw(chart) {
+      const ctx = chart.ctx, meta = chart.getDatasetMeta(0);
+      ctx.save(); ctx.font = `600 12px ${css("--font-body")}`; ctx.fillStyle = css("--ink"); ctx.textAlign = "center";
+      meta.data.forEach((bar, i) => {
+        const v = i === 0 ? b.revenue : i === bars.length - 1 ? a.revenue : dec[i - 1].dollars;
+        const txt = (i === 0 || i === bars.length - 1) ? moneyK(v) : "+" + moneyK(v);
+        ctx.fillText(txt, bar.x, Math.min(bar.y, bar.base) - 6);
+      }); ctx.restore();
+    } };
+    const colors = bars.map((_, i) => (i === 0 || i === bars.length - 1) ? css("--axis") : css("--series-1"));
+    return new Chart($("q1-waterfall"), { type: "bar", data: { labels, datasets: [{ data: bars, backgroundColor: colors, borderRadius: 4, borderSkipped: false, maxBarThickness: 80 }] }, options: Object.assign(o, { layout: { padding: { top: 20 } } }), plugins: [valueLabels] });
+  });
+
+  const months = d.monthly.map((m) => m.Month);
+  const mLabel = (s) => { const [y, m] = s.split("-"); return new Date(+y, +m - 1).toLocaleString("en-US", { month: "short" }) + " " + y.slice(2); };
+  const first = d.monthly[0], last = d.monthly[d.monthly.length - 1];
+  $("q1-m1").textContent = `${first.Orders} → ${last.Orders}`;
+  $("q1-m2").textContent = `${first.Customers} → ${last.Customers}`;
+  $("q1-m3").textContent = `${money(first.AvgOrderValue)} → ${money(last.AvgOrderValue)}`;
+  function small(id, key, fmt) {
+    const o = baseOpts();
+    o.interaction = { mode: "index", intersect: false };
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink-2"), maxRotation: 0, autoSkip: false, callback: (v) => [0, 9, 21].includes(v) ? mLabel(months[v]) : "", font: { size: 10 } } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), maxTicksLimit: 4, callback: (v) => fmt(v), font: { size: 10 } } });
+    o.plugins.tooltip.callbacks = { title: (c) => mLabel(months[c[0].dataIndex]), label: (c) => fmt(c.raw) };
+    return new Chart($(id), { type: "line", data: { labels: months, datasets: [{ data: d.monthly.map((m) => m[key]), borderColor: css("--series-1"), borderWidth: 2, tension: 0.25, pointRadius: 0, pointHoverRadius: 4, pointHitRadius: 10 }] }, options: o });
+  }
+  addChart("growth", () => small("q1-orders", "Orders", (v) => num(v)));
+  addChart("growth", () => small("q1-cust", "Customers", (v) => num(v)));
+  addChart("growth", () => small("q1-aov", "AvgOrderValue", (v) => moneyK(v)));
+
+  addChart("growth", () => {
+    const up = d.customers.slice(0, 12), down = d.customers.slice(-5);
+    const rows = up.concat(down);
+    const o = baseOpts(); o.indexAxis = "y";
+    o.scales.x = axis({ ticks: { color: css("--ink-2"), callback: (v) => (v > 0 ? "+" : "") + moneyK(v), maxTicksLimit: 6 }, title: { display: true, text: "Change in revenue (USD)", color: css("--muted") } });
+    o.scales.y = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 11 }, autoSkip: false } });
+    o.plugins.tooltip.callbacks = { label: (c) => { const r = rows[c.dataIndex]; return [`${money(r.Before)} → ${money(r.After)}`, `${r.OrdersBefore} → ${r.OrdersAfter} orders · ${r.Country}`]; } };
+    return new Chart($("q1-cust-change"), { type: "bar", data: { labels: rows.map((r) => r.CompanyName), datasets: [{ data: rows.map((r) => r.Change), backgroundColor: rows.map((r) => r.Change >= 0 ? css("--series-1") : css("--crit")), borderRadius: 4, borderSkipped: "start", maxBarThickness: 16 }] }, options: o });
+  });
+
+  addChart("growth", () => {
+    const pts = d.customers.map((c, i) => ({ x: i + 1, y: c.CumShareOfGrowth, c }));
+    const o = baseOpts();
+    o.scales.x = axis({ type: "linear", min: 1, max: pts.length, title: { display: true, text: "Customers, ranked by revenue increase", color: css("--muted") }, ticks: { color: css("--ink-2"), stepSize: 10 } });
+    o.scales.y = axis({ min: 0, ticks: { color: css("--ink-2"), callback: (v) => pct(v, 0), stepSize: 0.25 }, title: { display: true, text: "Cumulative share of growth", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = { title: (c) => `Top ${c[0].dataIndex + 1} customers`, label: (c) => [`${pct(c.raw.y)} of growth`, `Adds ${c.raw.c.CompanyName} (${c.raw.c.Change >= 0 ? "+" : ""}${money(c.raw.c.Change)})`] };
+    const marks = { id: "marks", afterDatasetsDraw(chart) {
+      const ctx = chart.ctx, xs = chart.scales.x, ys = chart.scales.y;
+      ctx.save(); ctx.strokeStyle = css("--muted"); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.font = `500 11px ${css("--font-body")}`; ctx.fillStyle = css("--ink");
+      [[cc.customersForHalf, pts[cc.customersForHalf - 1].y], [10, pts[9].y]].forEach(([n, y]) => {
+        const px = xs.getPixelForValue(n), py = ys.getPixelForValue(y);
+        ctx.beginPath(); ctx.moveTo(px, ys.bottom); ctx.lineTo(px, py); ctx.lineTo(xs.left, py); ctx.stroke();
+        ctx.fillText(`${n} customers → ${pct(y, 0)}`, px + 6, py + 14);
+      }); ctx.restore();
+    } };
+    return new Chart($("q1-curve"), { type: "line", data: { datasets: [{ data: pts, borderColor: css("--series-1"), backgroundColor: css("--series-1") + "1f", fill: true, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, pointHitRadius: 6, tension: 0 }] }, options: o, plugins: [marks] });
+  });
+  const peak = Math.max(...d.customers.map((c) => c.CumShareOfGrowth));
+  $("q1-curve-note").textContent = `The curve passes 100% (peaking at ${pct(peak, 0)}) because ${cc.customersShrinking} customers bought less and pull the total back down.`;
+
+  table("q1-seg", [
+    { key: "Segment", label: "Customer type" }, { key: "Customers", label: "Customers", num: true },
+    { key: "Before", label: "Before", num: true, fmt: (v) => money(v) }, { key: "After", label: "After", num: true, fmt: (v) => money(v) },
+    { key: "ShareOfGrowth", label: "Share of growth", num: true, fmt: (v) => pct(v) },
+  ], d.segments, { sortKey: "After" });
+
+  $("q1-finding").textContent = `Revenue grew ${pct(growth, 0)} between the two periods, and about ${pct(freq.shareOfGrowth, 0)} of that came from existing customers ordering more often: ${num(b.ordersPerCustomer, 1)} orders each, up to ${num(a.ordersPerCustomer, 1)}. Bigger orders and a larger customer base each added about ${pct(dec[2].shareOfGrowth, 0)}, and the ${seg.New.Customers} new customers accounted for just ${pct(seg.New.ShareOfGrowth, 0)} of the increase. The growth is concentrated. ${cc.customersForHalf} customers produced half of it and the top 10 produced ${pct(cc.top10Share, 0)}, led by ${lead.map((c) => c.CompanyName).join(", ")}. Meanwhile ${cc.customersShrinking} customers bought less.`;
+  $("q1-impl").textContent = `Northwind is growing by selling more to the customers it already has. That is efficient, but it is narrow: ${top.CompanyName} alone now accounts for ${pct(topShareAfter, 0)} of revenue, and the business has added only ${seg.New.Customers} new customers in a year.`;
+  $("q1-actions").innerHTML = [
+    `Protect the accounts the growth depends on: give the top 10 growers named account owners and track their order frequency monthly.`,
+    `Treat the ${cc.customersShrinking} customers who bought less as a retention list, starting with the largest declines.`,
+    `Make new-customer acquisition a deliberate goal. It contributed almost nothing to growth, so it's the least-used lever.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+  $("q1-caveat").textContent = `Limits: the data shows what changed, not why. There are no marketing, pricing or account-assignment records, and the "after" window ends a week before the data stops. Revenue is net of discounts and excludes freight.`;
+})();
+
+/* ---------- Q2: product risk ---------- */
+(function () {
+  const d = DATA.q2, k = d.kpis, P = d.products;
+  const star = P.find((p) => p.ProductName === "Côte de Blaye"), S = d.star;
+  const disc = P.filter((p) => p.Discontinued);
+  const meat = d.categories.find((c) => c.CategoryName === "Meat/Poultry");
+  const topDisc = disc[0];
+  const mName = (s) => { const [y, m] = s.split("-"); return new Date(+y, +m - 1).toLocaleString("en-US", { month: "short", year: "numeric" }); };
+  const recentLbl = `${mName(d.recentWindow[0])} – ${mName(d.recentWindow[1])}`;
+
+  $("q2-why").textContent = `If a handful of products carry the business, a supply problem, price change or lost buyer on any one of them hits revenue hard. The risk is sharper for products that are already discontinued: their sales stop once stock runs out unless something replaces them. Knowing how much revenue sits in each group tells the manager where to secure supply and where to find replacements first.`;
+  $("q2-approach").innerHTML = [
+    `Rank all ${P.length} products by net revenue and measure how quickly the total builds up.`,
+    `Call the top 10% of list prices (${money(d.premiumThreshold, 2)} and up) "premium", and track premium and discontinued products' share of revenue each quarter.`,
+    `Look closely at the largest product, ${star.ProductName}: how often it sells and who buys it.`,
+    `Measure the revenue that goes away with the discontinued products: their current run-rate (${recentLbl}), stock left, and which categories and customers depend on them.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+
+  kpis("q2-kpis", [
+    ["Top 10 products", pct(k.top10Share, 0), `of revenue · ${k.productsForHalf} make up half`],
+    ["Premium products", pct(k.premiumShare, 0), `of revenue from ${pct(k.premiumUnitShare, 0)} of units`],
+    [star.ProductName, pct(k.starShare, 0), `of revenue from ${S.orders} orders`],
+    ["Discontinued products", pct(k.discontinuedRecentShare, 0), `of revenue, ${recentLbl}`],
+    ["Revenue at risk", moneyK(k.annualRevenueAtRisk), "a year, at the current run-rate"],
+  ]);
+
+  const top20 = P.slice(0, 20);
+  addChart("product-risk", () => {
+    const colors = { Premium: css("--series-1"), Discontinued: css("--series-2"), Other: css("--axis") };
+    const o = baseOpts(); o.indexAxis = "y";
+    o.scales.x = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v), maxTicksLimit: 6 }, title: { display: true, text: "Net revenue, Jul 1996 – May 1998 (USD)", color: css("--muted") } });
+    o.scales.y = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 11 }, autoSkip: false, callback: function (v) { return `${top20[v].Rank}. ${top20[v].ProductName}`; } } });
+    o.plugins.tooltip.callbacks = {
+      title: (c) => `#${top20[c[0].dataIndex].Rank} ${top20[c[0].dataIndex].ProductName}`,
+      label: (c) => { const p = top20[c.dataIndex]; return [`${money(p.Revenue)} (${pct(p.Share)} of revenue, ${pct(p.CumShare, 0)} cumulative)`, `${money(p.Price, 2)} list · ${p.CategoryName}`, [p.Premium ? "Premium" : null, p.Discontinued ? "Discontinued" : null].filter(Boolean).join(" · ") || "Active"]; },
+    };
+    return new Chart($("q2-rank"), { type: "bar", data: { labels: top20.map((p) => p.ProductName), datasets: [{ data: top20.map((p) => p.Revenue), backgroundColor: top20.map((p) => colors[p.Group]), borderRadius: { topRight: 3, bottomRight: 3 }, borderSkipped: false, maxBarThickness: 18 }] }, options: o });
+  });
+  { const rest = 1 - top20[top20.length - 1].CumShare;
+    $("q2-rank-note").textContent = `These 20 products bring in ${pct(1 - rest, 0)} of revenue; the other ${P.length - 20} share the remaining ${pct(rest, 0)}. ${k.premiumDiscontinued.join(" and ")} are both premium and discontinued and are shown as discontinued. Hover a bar for details.`; }
+
+  addChart("product-risk", () => {
+    const q = d.quarterly, labels = q.map((x) => x.Quarter.replace(/(\d{4})Q(\d)/, "Q$2 $1"));
+    const o = baseOpts(); o.interaction = { mode: "index", intersect: false };
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink-2"), maxRotation: 0, autoSkip: false, font: { size: 10 }, callback: (v) => labels[v].replace(" ", "\n").split("\n") } });
+    o.scales.y = axis({ beginAtZero: true, max: 0.5, ticks: { color: css("--ink-2"), callback: (v) => pct(v, 0), stepSize: 0.1 }, title: { display: true, text: "Share of quarterly revenue", color: css("--muted") } });
+    o.plugins.tooltip.displayColors = true;
+    o.plugins.tooltip.callbacks = { label: (c) => `${c.datasetIndex === 0 ? "Premium" : "Discontinued"}: ${pct(c.raw)}` };
+    const line = (key, col) => ({ data: q.map((x) => x[key]), borderColor: css(col), backgroundColor: css(col), borderWidth: 2, pointRadius: 3.5, pointBorderColor: css("--surface"), pointBorderWidth: 1.5, pointHoverRadius: 5, tension: 0.2 });
+    return new Chart($("q2-quarterly"), { type: "line", data: { labels, datasets: [line("PremiumShare", "--series-1"), line("DiscontinuedShare", "--series-2")] }, options: o });
+  });
+
+  $("q2-star-title").textContent = `${star.ProductName}: monthly revenue`;
+  $("q2-star-note").textContent = `No sales in ${S.monthsWithoutSales} of ${S.monthsTotal} months; up to ${pct(S.maxShareOfMonth, 0)} of a month's revenue in others. Its top 3 buyers (${S.top3Buyers.join(", ")}) account for ${pct(S.top3BuyerShare, 0)} of its sales. Stock: ${star.UnitsInStock} units against a reorder level of ${star.ReorderLevel}, ${star.UnitsOnOrder} on order.`;
+  addChart("product-risk", () => {
+    const m = S.monthly, labels = m.map((x) => x.Month);
+    const o = baseOpts();
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink-2"), maxRotation: 0, autoSkip: false, font: { size: 10 }, callback: (v) => [0, 6, 12, 18].includes(v) ? mName(labels[v]).replace(" 19", " ’") : "" } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v), maxTicksLimit: 5 } });
+    o.plugins.tooltip.callbacks = { title: (c) => mName(labels[c[0].dataIndex]), label: (c) => c.raw ? `${money(c.raw)} · ${pct(m[c.dataIndex].ShareOfMonth, 0)} of the month` : "No sales" };
+    return new Chart($("q2-star"), { type: "bar", data: { labels, datasets: [{ data: m.map((x) => x.Revenue), backgroundColor: css("--series-1"), borderRadius: 3, borderSkipped: "start" }] }, options: o });
+  });
+
+  addChart("product-risk", () => {
+    const c = d.categories.slice().sort((a, b) => (b.Active + b.DiscontinuedRev) - (a.Active + a.DiscontinuedRev));
+    const o = baseOpts(); o.indexAxis = "y";
+    o.scales.x = axis({ stacked: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v), maxTicksLimit: 5 } });
+    o.scales.y = axis({ stacked: true, grid: { display: false }, ticks: { color: css("--ink"), font: { size: 11 } } });
+    o.plugins.tooltip.callbacks = { label: (x) => { const r = c[x.dataIndex]; return x.datasetIndex === 0 ? `Active: ${money(r.Active)} (${r.ActiveProducts} products)` : `Discontinued: ${money(r.DiscontinuedRev)} (${r.DiscontinuedProducts} products, ${pct(r.DiscontinuedShare, 0)})`; } };
+    const ring = css("--surface");
+    return new Chart($("q2-cats"), { type: "bar", data: { labels: c.map((x) => x.CategoryName), datasets: [
+      { data: c.map((x) => x.Active), backgroundColor: css("--series-1"), borderColor: ring, borderWidth: { right: 2 }, borderSkipped: false, maxBarThickness: 20 },
+      { data: c.map((x) => x.DiscontinuedRev), backgroundColor: css("--series-2"), borderRadius: { topRight: 4, bottomRight: 4 }, borderSkipped: false, maxBarThickness: 20 },
+    ] }, options: o });
+  });
+
+
+
+  const exposedTop = d.customers[0];
+  $("q2-finding").textContent = `Revenue is spread over many products, but the top end carries real weight: 10 products make up ${pct(k.top10Share, 0)} of sales, and the ${k.premiumCount} premium products ${pct(k.premiumShare, 0)} from just ${pct(k.premiumUnitShare, 0)} of units. ${star.ProductName} alone is ${pct(k.starShare, 0)} of revenue, and its sales come in a few large, irregular orders. The bigger exposure is the ${k.discontinuedCount} discontinued products. ${disc.filter((p) => p.LastSale >= "1998-04-01").length} of them were still selling in April or May 1998, and together they made up ${pct(k.discontinuedRecentShare, 0)} of revenue in ${recentLbl}, about ${moneyK(k.annualRevenueAtRisk)} a year. ${topDisc.ProductName} is most of that. In Meat/Poultry, discontinued products are ${pct(meat.DiscontinuedShare, 0)} of the category's revenue.`;
+  $("q2-impl").textContent = `Without replacements, Northwind loses roughly a sixth of its revenue as discontinued stock runs out, and its Meat/Poultry range almost disappears. ${exposedTop.Customer}, the biggest source of growth in Question 1, is also the customer with the most spend on discontinued products.`;
+  $("q2-actions").innerHTML = [
+    `Source replacements for the discontinued Meat/Poultry products first, starting with a premium sausage to replace ${topDisc.ProductName}.`,
+    `Contact the most exposed customers before their next order and offer alternatives, so they don't buy elsewhere.`,
+    `Secure supply of ${star.ProductName}: stock is near its reorder level with nothing on order, and a few buyers place most of its orders.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+  $("q2-caveat").textContent = `Limits: the data has no discontinuation dates, so "discontinued" is read as current status and the run-rate assumes recent demand would continue. Revenue at risk is a gross figure; some customers may switch to other Northwind products. Premium is defined by list price, not margin, because the data has no costs.`;
+})();
+
+/* ---------- Q3: dedicated sellers ---------- */
+(function () {
+  const d = DATA.q3, lo = d.loyalty, ne = d.natural, A = d.accounts, q2 = DATA.q2.kpis;
+  const ov = ne.effects[0], units = ne.effects[1], days = ne.effects[2];
+  const exposed = A.filter((a) => a.DiscontinuedShare >= 0.15);
+  const discShareTop = d.topDiscontinuedRunRate / q2.annualRevenueAtRisk;
+  const best = d.power.reduce((m, x) => x.detectableLift < m.detectableLift ? x : m);
+  const span = (e) => `${e.low >= 0 ? "+" : ""}${pct(e.low, 0)} to +${pct(e.high, 0)}`;
+
+  $("q3-why").textContent = `Question 1 showed that growth comes from existing customers ordering more often, and the top ${d.topN} customers bring in ${pct(d.topShare, 0)} of revenue. Question 2 showed that ${moneyK(q2.annualRevenueAtRisk)} a year rides on discontinued products, and someone has to move those buyers onto replacements. A dedicated seller who knows each account could do both: deepen the relationship and manage the switch. It also ties up seller time, so management needs evidence before reorganizing the sales team.`;
+  $("q3-approach").innerHTML = [
+    `Test whether Northwind already pairs sellers with customers: compare real seller loyalty with ${num(1000)} random reshuffles of who took each order.`,
+    `Use the orders where, by chance, the same seller as last time took the order as a natural experiment. Compare them with the same customer's other orders, with 95% ranges from resampling customers.`,
+    `Size the opportunity on the top ${d.topN} accounts, including their exposure to discontinued products.`,
+    `Work out how large an A/B pilot would need to be to detect a realistic effect.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+
+  kpis("q3-kpis", [
+    ["Same seller as last order", pct(ne.sameSellerRate, 0), `random routing gives ${pct(ne.randomRate, 0)}`],
+    ["Sellers per top account", num(d.sellersPerTopAccount, 1), `of ${d.sellers} on average`],
+    ["Order value, same seller", "+" + pct(ov.estimate, 0), `95% range ${span(ov)}`],
+    ["Discontinued risk in top 20", moneyK(d.topDiscontinuedRunRate), `${pct(discShareTop, 0)} of the Q2 total`],
+  ]);
+
+  addChart("sellers", () => {
+    const h = lo.hist, labels = h.map((b) => (b.from + b.to) / 2);
+    const o = baseOpts();
+    o.scales.x = axis({ type: "linear", offset: false, min: h[0].from, max: h[h.length - 1].to, grid: { display: false }, ticks: { color: css("--ink-2"), callback: (v) => pct(v, 0), maxTicksLimit: 6 }, title: { display: true, text: "Average share of orders with the customer's main seller", color: css("--muted") } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), maxTicksLimit: 5 }, title: { display: true, text: "Random reshuffles", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = { title: (c) => `${pct(h[c[0].dataIndex].from)}–${pct(h[c[0].dataIndex].to)}`, label: (c) => `${c.raw.y} of 1,000 reshuffles` };
+    const mark = { id: "obs", afterDatasetsDraw(chart) {
+      const x = chart.scales.x.getPixelForValue(lo.observed), y = chart.scales.y;
+      const ctx = chart.ctx; ctx.save(); ctx.strokeStyle = css("--series-2"); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x, y.top + 14); ctx.lineTo(x, y.bottom); ctx.stroke();
+      ctx.fillStyle = css("--ink"); ctx.font = `600 11px ${css("--font-body")}`; ctx.textAlign = x > chart.width * 0.7 ? "right" : "left";
+      ctx.fillText(`Actual: ${pct(lo.observed)}`, x + (ctx.textAlign === "left" ? 6 : -6), y.top + 12); ctx.restore();
+    } };
+    const barW = (h[0].to - h[0].from);
+    return new Chart($("q3-perm"), { type: "bar", data: { datasets: [{ data: h.map((b, i) => ({ x: labels[i], y: b.count })), backgroundColor: css("--axis"), borderRadius: 2, borderSkipped: "start", barPercentage: 1, categoryPercentage: 1, grouped: false }] }, options: Object.assign(o, { layout: { padding: { top: 6 } } }), plugins: [mark] });
+  });
+  $("q3-perm-note").textContent = `Grey bars: 1,000 simulations that hand every order to a random seller (keeping each seller's workload). Orange line: what really happened, for the ${lo.customers} customers with ${5}+ orders. ${pct(lo.pValue, 0)} of random runs were at least as loyal as reality, so there's no sign of account ownership.`;
+
+  addChart("sellers", () => {
+    const rows = [ov, units];
+    const o = baseOpts(); o.indexAxis = "y";
+    o.scales.x = axis({ min: -0.2, max: 0.5, ticks: { color: css("--ink-2"), callback: (v) => (v > 0 ? "+" : "") + pct(v, 0), stepSize: 0.1 }, title: { display: true, text: "Same seller vs different seller, within customer", color: css("--muted") } });
+    o.scales.y = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 12 } } });
+    o.plugins.tooltip.callbacks = { label: (c) => { const r = rows[c.dataIndex]; return `Estimate +${pct(r.estimate)} · 95% range ${span(r)}`; } };
+    const zero = { id: "zero", beforeDatasetsDraw(chart) { const x = chart.scales.x.getPixelForValue(0), y = chart.scales.y; const ctx = chart.ctx; ctx.save(); ctx.strokeStyle = css("--ink-2"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, y.top); ctx.lineTo(x, y.bottom); ctx.stroke(); ctx.restore(); } };
+    return new Chart($("q3-effects"), { data: { labels: rows.map((r) => r.outcome), datasets: [
+      { type: "bar", data: rows.map((r) => [r.low, r.high]), backgroundColor: css("--series-1") + "40", borderRadius: 4, borderSkipped: false, maxBarThickness: 14 },
+      { type: "scatter", data: rows.map((r, i) => ({ x: r.estimate, y: r.outcome })), backgroundColor: css("--series-1"), borderColor: css("--surface"), borderWidth: 2, pointRadius: 7, pointHoverRadius: 8 },
+    ] }, options: o, plugins: [zero] });
+  });
+  $("q3-effects-note").textContent = `Dot = estimate, bar = 95% range. Based on ${ne.sameSellerOrders} chance repeats among ${num(ne.repeatOrders)} repeat orders. Both ranges cross zero, so the lift is a hint, not proof. Time until the next order didn't change (+${num(days.estimate, 1)} days, range ${num(days.low, 0)} to +${num(days.high, 0)}).`;
+
+  addChart("sellers", () => {
+    const o = baseOpts(); o.indexAxis = "y";
+    o.scales.x = axis({ min: 0, max: d.sellers, ticks: { color: css("--ink-2"), stepSize: 1 }, title: { display: true, text: `Sellers who handled the account (of ${d.sellers})`, color: css("--muted") } });
+    o.scales.y = axis({ grid: { display: false }, ticks: { color: css("--ink"), font: { size: 11 }, autoSkip: false } });
+    o.plugins.tooltip.callbacks = { label: (c) => { const a = A[c.dataIndex]; return [`${a.Orders} orders · ${money(a.Revenue)} revenue`, `Main seller: ${a.TopSeller} (${pct(a.TopSellerShare, 0)} of orders)`, `Discontinued products: ${pct(a.DiscontinuedShare, 0)} of spend`]; } };
+    return new Chart($("q3-accounts"), { type: "bar", data: { labels: A.map((a) => a.Customer), datasets: [{ data: A.map((a) => a.Sellers), backgroundColor: A.map((a) => a.DiscontinuedShare >= 0.15 ? css("--series-2") : css("--series-1")), borderRadius: 4, borderSkipped: "start", maxBarThickness: 16 }] }, options: o });
+  });
+  $("q3-accounts-note").textContent = `Ranked by total revenue. Even the biggest customers deal with ${Math.min(...A.map((a) => a.Sellers))}–${Math.max(...A.map((a) => a.Sellers))} different sellers. ${exposed.length} of the top ${d.topN} spend 15% or more on discontinued products. Together the top ${d.topN} hold ${moneyK(d.topDiscontinuedRunRate)} of the ${moneyK(q2.annualRevenueAtRisk)} a year at risk from Question 2.`;
+
+  $("q3-gaps").innerHTML = [
+    `<b>Who owns each account.</b> Orders record who took them, not who is responsible for the customer. There's no way to see a relationship, only order routing.`,
+    `<b>Seller effort.</b> No calls, visits, emails or quotes, so we can't tell whether the sellers with more revenue worked harder or just received more orders.`,
+    `<b>Customer potential.</b> No share-of-wallet, customer size or satisfaction data. We can't tell which accounts have room to grow.`,
+    `<b>Profit.</b> No product costs or seller pay, so a dedicated-seller model can't be costed against its gains.`,
+    `<b>Product plans.</b> No discontinuation dates or planned replacements, which a seller would need to move customers off discontinued products.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+
+  $("q3-spec").innerHTML = [
+    ["Hypothesis", `Customers with a named seller place more orders and buy more per order than customers served by whoever is free.`],
+    ["Unit", `The customer account. Each account is randomly assigned to one group and stays there.`],
+    ["Groups", `Treatment: a named seller handles every order and calls before reorder dates. Control: today's routing. Split 50/50 within matched pairs of similar size and country.`],
+    ["Who", `All active accounts (about ${best.accounts}), not only the top ${d.topN}; see the size check.`],
+    ["Length", `${best.months}–12 months, so each account places enough orders to compare.`],
+    ["Primary metric", `Orders per account, compared with each account's own history.`],
+    ["Secondary", `Revenue per account, products per order, and the share of discontinued-product buyers who switch to a replacement (links to Question 2).`],
+    ["Guardrails", `Discount rate, late shipments and seller workload must not get worse.`],
+    ["Decision rule", `Agree the minimum lift worth rolling out before starting, and don't change the metric afterwards.`],
+  ].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+
+  addChart("sellers", () => {
+    const sc = d.scenarios;
+    const labels = sc.map((x) => x.isEstimate ? `+${pct(x.lift, 0)} (estimate)` : `+${pct(x.lift, 0)}`);
+    const o = baseOpts();
+    o.scales.x = axis({ grid: { display: false }, ticks: { color: css("--ink") }, title: { display: true, text: "Lift in revenue from top-20 accounts", color: css("--muted") } });
+    o.scales.y = axis({ beginAtZero: true, ticks: { color: css("--ink-2"), callback: (v) => moneyK(v), maxTicksLimit: 5 }, title: { display: true, text: "Extra revenue a year", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = { label: (c) => `${money(c.raw)} a year` };
+    return new Chart($("q3-scen"), { type: "bar", data: { labels, datasets: [{ data: sc.map((x) => x.annualGain), backgroundColor: sc.map((x) => x.isEstimate ? css("--series-1") : css("--series-1") + "80"), borderRadius: 4, borderSkipped: "start", maxBarThickness: 60 }] }, options: o });
+  });
+  $("q3-scen-note").textContent = `Applied to the top ${d.topN} accounts' current run-rate of ${moneyK(d.topRunRate)} a year (Feb–Apr 1998). Before seller costs, which the data doesn't include.`;
+
+  table("q3-power", [
+    { key: "accounts", label: "Accounts in pilot", num: true },
+    { key: "months", label: "Months", num: true },
+    { key: "detectableLift", label: "Smallest lift it can reliably detect", num: true, fmt: (v) => "+" + pct(v, 0) },
+  ], d.power, { sortKey: "detectableLift", sortDir: "asc" });
+  $("q3-power-note").textContent = `80% power, 5% significance, accounts split 50/50. Noise is measured from how much each account's order count changed between two past periods with no intervention. Even the best design can only detect large effects, because Northwind has few customers and their orders are irregular. The figures already compare each account with its own history; pairing similar accounts before randomizing would make the test somewhat more sensitive, so treat them as conservative.`;
+
+
+  $("q3-stages").innerHTML = [
+    ["Months 0–1", "Set up", `Add the account-owner field and contact logging. Pair accounts by size and country, randomize, brief sellers.`],
+    ["Months 1–12", "Run the pilot", `Treatment accounts get a named seller. Review guardrails monthly; read the primary metric only at the end.`],
+    ["After the pilot", "Expand or stop", `If the lift clears the agreed bar, assign owners to the top ${d.topN} first, then everyone else. With ${d.sellers} sellers that's about ${Math.round(DATA.overview.kpis.customersActive / d.sellers)} accounts each. Match sellers to customer regions and languages as accounts grow.`],
+  ].map(([w, t, p]) => `<div class="stage"><span class="when">${w}</span><b>${t}</b><p>${p}</p></div>`).join("");
+
+  $("q3-finding").textContent = `Northwind doesn't pair sellers with customers today. Orders reach sellers as if at random: the same seller takes a customer's next order ${pct(ne.sameSellerRate, 0)} of the time, exactly what random routing gives, and even the biggest accounts deal with ${num(d.sellersPerTopAccount, 1)} sellers on average. When continuity happens by chance, orders are about ${pct(ov.estimate, 0)} larger, but the 95% range (${span(ov)}) includes no effect. So the data can't answer the question. It does show that the experiment would be cheap to run, because there's no existing relationship structure to disrupt.`;
+  $("q3-impl").textContent = `Dedicated sellers are a plausible lever for both earlier findings: deepening the top accounts that drive growth (Question 1), and moving the buyers of discontinued products, who hold ${moneyK(d.topDiscontinuedRunRate)} a year of the ${moneyK(q2.annualRevenueAtRisk)} at risk, onto replacements before they go elsewhere (Question 2). The evidence isn't strong enough to reorganize the sales team. Northwind should run a randomized pilot across all accounts for about a year, with an account-owner field and the success metrics agreed before it starts, and expand only if the agreed lift appears.`;
+  $("q3-caveat").textContent = `Limits: the natural experiment relies on routing being random, which the reshuffle test supports but can't prove. Lift scenarios assume the effect applies to whole-account revenue. The power check uses past swings in order counts, and real pilot noise may differ.`;
+})();
+
+/* ---------- Products ---------- */
+(function () {
+  const d = DATA.products, k = d.kpis;
+  kpis("pr-kpis", [
+    ["Products", k.products, `${k.active} active · ${k.discontinued} discontinued`],
+    ["List price", `${money(k.medianPrice, 2)}`, `median · range ${money(k.minPrice, 2)}–${money(k.maxPrice, 2)}`],
+    ["Top 10 products", pct(k.top10Share), "of all revenue"],
+    ["Products for 80% of sales", k.productsFor80, `out of ${k.products}`],
+    ["At/below reorder level", k.belowReorder, `${k.needsReorder} not covered by open orders`],
+    ["Discontinued items", pct(k.discontinuedRevenueShare), "of revenue came from them"],
+  ]);
+  const top = d.table.slice(0, 15);
+  addChart("products", () => hbar("pr-top", top.map((p) => p.ProductName), top.map((p) => p.Revenue), moneyK,
+    (i) => `${money(top[i].Revenue)} · ${num(top[i].Units)} units · ${top[i].CategoryName}`));
+  addChart("products", () => {
+    const o = baseOpts();
+    const pts = (disc) => d.table.filter((p) => p.Discontinued === disc).map((p) => ({ x: p.Price, y: p.Units, p }));
+    o.scales.x = axis({ type: "logarithmic", title: { display: true, text: "List price (USD, log scale)", color: css("--muted") }, ticks: { color: css("--ink-2"), callback: (v) => [2, 5, 10, 20, 50, 100, 200].includes(v) ? "$" + v : "" } });
+    o.scales.y = axis({ beginAtZero: true, title: { display: true, text: "Units sold", color: css("--muted") } });
+    o.plugins.tooltip.callbacks = { label: (c) => { const p = c.raw.p; return [`${p.ProductName}`, `${money(p.Price, 2)} list · ${num(p.Units)} units`, `${money(p.Revenue)} revenue`]; } };
+    const ring = css("--surface");
+    return new Chart($("pr-scatter"), { type: "scatter", data: { datasets: [
+      { data: pts(false), backgroundColor: css("--series-1"), borderColor: ring, borderWidth: 1.5, pointRadius: 5, pointHoverRadius: 7, pointHitRadius: 8 },
+      { data: pts(true), backgroundColor: css("--series-2"), borderColor: ring, borderWidth: 1.5, pointRadius: 5, pointHoverRadius: 7, pointHitRadius: 8 },
+    ] }, options: o });
+  });
+  addChart("products", () => vbar("pr-hist", d.priceHist.map((b) => b.Band), d.priceHist.map((b) => b.Products), (v) => `${v} products`, "List price band", "Products"));
+
+  const watch = d.table.filter((p) => p.BelowReorder).sort((a, b) => (b.NeedsReorder - a.NeedsReorder) || (a.UnitsInStock - b.UnitsInStock));
+  table("pr-watch", [
+    { key: "ProductName", label: "Product", fmt: (v, r) => `${esc(v)} ${r.NeedsReorder ? '<span class="pill crit">Act</span>' : ""}` },
+    { key: "UnitsInStock", label: "In stock", num: true }, { key: "UnitsOnOrder", label: "On order", num: true },
+    { key: "ReorderLevel", label: "Reorder at", num: true }, { key: "Units", label: "Units sold", num: true, fmt: (v) => num(v) },
+  ], watch);
+
+  table("pr-cats", [
+    { key: "CategoryName", label: "Category" }, { key: "Products", label: "Products", num: true },
+    { key: "Discontinued", label: "Discontinued", num: true }, { key: "AvgPrice", label: "Avg list price", num: true, fmt: (v) => money(v, 2) },
+    { key: "Units", label: "Units sold", num: true, fmt: (v) => num(v) }, { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) },
+    { key: "RevenueShare", label: "Share", num: true, fmt: (v) => pct(v) }, { key: "AvgDiscount", label: "Avg discount", num: true, fmt: (v) => pct(v) },
+    { key: "StockUnits", label: "Units in stock", num: true, fmt: (v) => num(v) },
+  ], d.byCategory, { sortKey: "Revenue" });
+
+  const all = table("pr-all", [
+    { key: "ProductName", label: "Product", search: true, fmt: (v, r) => `${esc(v)} ${r.Discontinued ? '<span class="pill off">Discontinued</span>' : ""}` },
+    { key: "CategoryName", label: "Category", search: true }, { key: "Supplier", label: "Supplier", search: true },
+    { key: "Price", label: "List price", num: true, fmt: (v) => money(v, 2) },
+    { key: "Units", label: "Units sold", num: true, fmt: (v) => num(v) }, { key: "Orders", label: "Orders", num: true },
+    { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) }, { key: "RevenueShare", label: "Share", num: true, fmt: (v) => pct(v, 2) },
+    { key: "AvgDiscount", label: "Avg discount", num: true, fmt: (v) => pct(v) },
+    { key: "UnitsInStock", label: "In stock", num: true }, { key: "ReorderLevel", label: "Reorder at", num: true },
+  ], d.table, { sortKey: "Revenue" });
+  $("pr-search").addEventListener("input", (e) => all.setFilter(e.target.value.trim()));
+
+  const lead = d.table[0];
+  $("pr-q").innerHTML = [
+    `${esc(lead.ProductName)} alone brings in ${pct(lead.RevenueShare)} of revenue at a ${money(lead.Price, 2)} list price. How exposed is the business to a few premium products?`,
+    `Discontinued products still account for ${pct(k.discontinuedRevenueShare)} of revenue. Were they replaced, and did their customers keep buying?`,
+    `Do bigger discounts actually lift the quantity ordered, or do they just give away margin?`,
+    `${k.belowReorder} active products sit at or below their reorder level. Which ones are fast sellers at risk of stocking out?`,
+  ].map((q) => `<li>${q}</li>`).join("");
+})();
+
+/* ---------- Suppliers ---------- */
+(function () {
+  const d = DATA.suppliers, k = d.kpis;
+  kpis("su-kpis", [
+    ["Suppliers", k.suppliers, `in ${k.countries} countries`],
+    ["Top 5 suppliers", pct(k.top5Share), "of revenue"],
+    ["Concentration (HHI)", num(k.hhi), "below 1,500 = unconcentrated"],
+    ["Products per supplier", num(k.medianProducts), `median · ${k.singleProduct} supply just one`],
+    ["With a discontinued item", k.withDiscontinued, "suppliers"],
+  ]);
+  addChart("suppliers", () => hbar("su-bar", d.table.map((s) => s.CompanyName), d.table.map((s) => s.Revenue), moneyK,
+    (i) => { const s = d.table[i]; return [`${money(s.Revenue)} (${pct(s.RevenueShare)})`, `${s.Products} products · ${s.Country}`]; }));
+  addChart("suppliers", () => hbar("su-country", d.byCountry.map((c) => c.Country), d.byCountry.map((c) => c.Revenue), moneyK,
+    (i) => { const c = d.byCountry[i]; return [`${money(c.Revenue)} (${pct(c.RevenueShare)})`, `${c.Suppliers} suppliers · ${c.Products} products`]; }));
+  table("su-table", [
+    { key: "CompanyName", label: "Supplier" }, { key: "Country", label: "Country" },
+    { key: "Products", label: "Products", num: true }, { key: "Discontinued", label: "Discontinued", num: true },
+    { key: "Categories", label: "Categories", wrap: true },
+    { key: "AvgPrice", label: "Avg list price", num: true, fmt: (v) => money(v, 2) },
+    { key: "Units", label: "Units sold", num: true, fmt: (v) => num(v) }, { key: "Customers", label: "Customers", num: true },
+    { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) }, { key: "RevenueShare", label: "Share", num: true, fmt: (v) => pct(v) },
+  ], d.table, { sortKey: "Revenue" });
+  const t = d.table;
+  $("su-q").innerHTML = [
+    `${esc(t[0].CompanyName)} and ${esc(t[1].CompanyName)} together supply ${pct(t[0].RevenueShare + t[1].RevenueShare)} of revenue. What happens if one of them has a supply problem?`,
+    `Is a supplier's revenue driven by one star product or by a broad range? Compare product count with revenue.`,
+    `Which suppliers' products sell slowly relative to stock held, tying up inventory?`,
+    `Does sourcing from far-away countries show up in slower or later shipments?`,
+  ].map((q) => `<li>${q}</li>`).join("");
+})();
+
+/* ---------- Employees ---------- */
+(function () {
+  const d = DATA.employees, k = d.kpis;
+  kpis("em-kpis", [
+    ["Employees", k.employees, `${k.salesReps} sales reps · offices in ${k.offices.join(" and ")}`],
+    ["Top seller", k.topName, `${pct(k.topShare)} of revenue`],
+    ["Late shipments", pct(k.lateRate), "of shipped orders, company-wide"],
+    ["Order to shipment", `${num(k.avgDaysToShip, 1)} days`, "average"],
+  ]);
+  addChart("employees", () => hbar("em-rev", d.table.map((e) => e.Name), d.table.map((e) => e.Revenue), moneyK,
+    (i) => { const e = d.table[i]; return [`${money(e.Revenue)} (${pct(e.RevenueShare)})`, `${e.Orders} orders · ${money(e.AvgOrder)} avg`, e.Title]; }));
+  const late = d.table.slice().sort((a, b) => b.LateRate - a.LateRate);
+  addChart("employees", () => hbar("em-late", late.map((e) => e.Name), late.map((e) => e.LateRate), (v) => pct(v, 0),
+    (i) => `${pct(late[i].LateRate)} · ${late[i].LateOrders} late of ${late[i].ShippedOrders} shipped orders`, "--series-2"));
+
+  const all = d.quarterly.flatMap((q) => q.values);
+  const max = Math.max(...all);
+  const order = d.table.map((e) => e.EmployeeID);
+  const rows = order.map((id) => d.quarterly.find((q) => q.EmployeeID === id));
+  const heat = $("em-heat");
+  const qLabel = (q) => q.replace(/(\d{4})Q(\d)/, "Q$2 $1");
+  function paintHeat() {
+    const ink = css("--ink"), bg = css("--series-1");
+    heat.innerHTML = `<thead><tr><th>Employee</th>${d.quarters.map((q) => `<th class="num">${qLabel(q)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) =>
+      `<tr><td>${esc(r.Name)}</td>${r.values.map((v) => { const a = v / max; return `<td class="cell" style="background:color-mix(in srgb, ${bg} ${Math.round(a * 85)}%, transparent);color:${a > 0.55 ? "#fff" : ink}">${moneyK(v)}</td>`; }).join("")}</tr>`).join("")}</tbody>`;
+  }
+  builders.push({ view: "employees", noLib: true, fn: () => { paintHeat(); return null; } });
+
+  table("em-table", [
+    { key: "Name", label: "Employee" }, { key: "Title", label: "Title" }, { key: "Country", label: "Office" },
+    { key: "Manager", label: "Reports to", fmt: (v) => v ? esc(v) : "—" },
+    { key: "HireDate", label: "Hired" }, { key: "Orders", label: "Orders", num: true },
+    { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) }, { key: "AvgOrder", label: "Avg order", num: true, fmt: (v) => money(v) },
+    { key: "Customers", label: "Customers", num: true }, { key: "Countries", label: "Countries", num: true },
+    { key: "DiscountedShare", label: "Lines discounted", num: true, fmt: (v) => pct(v, 0) },
+    { key: "AvgDaysToShip", label: "Days to ship", num: true, fmt: (v) => num(v, 1) },
+    { key: "LateRate", label: "Late", num: true, fmt: (v) => pct(v) },
+  ], d.table, { sortKey: "Revenue" });
+
+  const byLate = late[0];
+  $("em-q").innerHTML = [
+    `Does revenue per employee reflect skill, or simply when they were hired and which customers they were given?`,
+    `${esc(byLate.Name)} has the highest late rate (${pct(byLate.LateRate)}). Is that the employee, the customers' countries, or the shipper?`,
+    `Do employees who discount more often win larger orders, or just lower prices?`,
+    `How does the UK team (managed by Steven Buchanan) compare with the US team on revenue per order?`,
+  ].map((q) => `<li>${q}</li>`).join("");
+})();
+
+/* ---------- Orders, customers, shippers ---------- */
+(function () {
+  const d = DATA.ordersCustomers, k = d.kpis;
+  kpis("or-kpis", [
+    ["Orders", num(k.orders), `${k.unshipped} never shipped`],
+    ["Items per order", num(k.avgItemsPerOrder, 1), "products on average"],
+    ["Discounted lines", pct(k.discountedLines, 0), "of order lines"],
+    ["Shipped late", pct(k.lateRate), `median ${num(k.medianDaysToShip)} days to ship`],
+    ["Top 10 customers", pct(k.top10CustomerShare), "of revenue"],
+  ]);
+  addChart("orders", () => hbar("or-country", d.byCountry.map((c) => c.CustomerCountry), d.byCountry.map((c) => c.Revenue), moneyK,
+    (i) => { const c = d.byCountry[i]; return [`${money(c.Revenue)} (${pct(c.Share)})`, `${c.Customers} customers · ${c.Orders} orders`]; }));
+  addChart("orders", () => vbar("or-days", d.daysHist.map((b) => b.Days), d.daysHist.map((b) => b.Orders), (v) => `${v} orders`, "Days to ship", "Orders"));
+  table("or-ship", [
+    { key: "Shipper", label: "Shipper" }, { key: "Orders", label: "Orders", num: true },
+    { key: "AvgFreight", label: "Avg freight", num: true, fmt: (v) => money(v, 2) },
+    { key: "FreightPctOfRevenue", label: "Freight / revenue", num: true, fmt: (v) => pct(v) },
+    { key: "AvgDaysToShip", label: "Days to ship", num: true, fmt: (v) => num(v, 1) },
+    { key: "LateRate", label: "Late", num: true, fmt: (v) => pct(v) },
+  ], d.shippers, { sortKey: "Orders" });
+  table("or-cust", [
+    { key: "Customer", label: "Customer" }, { key: "CustomerCountry", label: "Country" },
+    { key: "Orders", label: "Orders", num: true }, { key: "Revenue", label: "Revenue", num: true, fmt: (v) => money(v) },
+    { key: "Share", label: "Share", num: true, fmt: (v) => pct(v) },
+  ], d.topCustomers, { sortKey: "Revenue" });
+  $("or-q").innerHTML = [
+    `The US and Germany lead revenue. Which markets are growing month over month, and which are shrinking?`,
+    `The top 10 customers bring in ${pct(k.top10CustomerShare)} of revenue. How dependent is Northwind on them, and are any slowing down?`,
+    `United Package carries the most orders but has the slowest shipping. Is it worth its higher average freight?`,
+  ].map((q) => `<li>${q}</li>`).join("");
+})();
+
+/* ---------- Notes ---------- */
+$("notes").innerHTML = [
+  `<b>Revenue</b> is net of discounts: <code>UnitPrice × Quantity × (1 − Discount)</code> from Orders Details. Freight is not included.`,
+  `<b>Partial periods.</b> Data starts on July 4, 1996 and ends on May 6, 1998. 1996 and 1998 are partial years, so the page compares months rather than annual totals. May 1998 (6 days, 14 orders) is left out of time-series charts.`,
+  `<b>Unshipped orders.</b> 21 orders, all from spring 1998, have no ship date. They count toward revenue but not toward shipping-time or lateness measures.`,
+  `<b>Two prices.</b> The Product table's <code>Price</code> is today's list price. Orders Details records the price actually charged, which differs on 658 order lines. Sales figures use the charged price.`,
+  `<b>Ignored columns.</b> The Product sheet carries extra columns (<code>Cheap</code>, <code>NewPrice</code>, <code>Cheap.1</code>, <code>IsCheap</code>, an empty column and <code>NewPrice.1</code>) that aren't part of the Northwind schema. They are dropped.`,
+  `<b>Customer IDs on 4 orders don't match the ship-to company.</b> Orders 10248, 10249, 10260 and 10808 ($5.2k in total) are recorded against one customer but shipped to the name and address of another (for example, order 10248 is recorded as Wilman Kala in Finland but shipped to Vins et alcools Chevalier in France). The analysis keeps the CustomerID as recorded. Reassigning them to the ship-to company changes only one figure on the page: new customers in Question 1 would be 10, not 9 (13% of growth instead of 12%). Another 12 orders differ only in spelling or spacing of the customer name.`,
+  `<b>Country</b> means the customer's registered country throughout, not the ship-to country.`,
+  `<b>Customers without orders.</b> ${DATA.ordersCustomers.kpis.noOrderCustomers.map(esc).join(" and ")} have never ordered.`,
+  `<b>Late</b> means the ship date is after the customer's required date. Lateness is measured on shipped orders only.`,
+  `<b>Source.</b> The course copy of the Northwind Database Google Sheet. All figures are computed by <code>src/build_overview.py</code>.`,
+].map((n) => `<li>${n}</li>`).join("");
+
+/* ---------- In-page jumps (don't touch the hash, which drives the tabs) ---------- */
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-jump]"); if (!b) return;
+  const view = b.closest("section.view");
+  let el = b.dataset.jump === "top" ? view.querySelector(".qhead") : document.getElementById(b.dataset.jump);
+  if (!el) return;
+  el = el.closest(".callout, .panel, .kpis") || el;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  if (b.dataset.jump !== "top") { el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+});
+
+/* ---------- Tabs (hash routing) ---------- */
+const views = ["overview", "growth", "product-risk", "sellers", "products", "suppliers", "employees", "orders", "notes"];
+function show() {
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
+  currentView = v;
+  document.body.classList.toggle("compact", v !== "overview");
+  const titles = { overview: "Northwind Traders", growth: "What's driving growth?", "product-risk": "How exposed are we to a few products?", sellers: "Would dedicated sellers help?", products: "Products & categories", suppliers: "Suppliers", employees: "Employees", orders: "Orders, customers & shippers", notes: "Data notes" };
+  $("hero-title").textContent = titles[v];
+  views.forEach((x) => { $("view-" + x).hidden = x !== v; });
+  document.querySelectorAll("#tabbar a").forEach((a) => { if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  drawAll();
+}
+window.addEventListener("hashchange", () => { show(); window.scrollTo(0, 0); const t = document.querySelector('#tabbar a[aria-current="page"]'); if (t) t.scrollIntoView({ block: "nearest", inline: "center" }); });
+show();
+</script>

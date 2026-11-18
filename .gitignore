@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+site/artifact.html
+site/index.html
+PROGRESS.md

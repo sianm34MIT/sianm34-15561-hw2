@@ -1,0 +1,478 @@
+{
+ "loyalty": {
+  "customers": 72,
+  "observed": 0.3097,
+  "randomMean": 0.3187,
+  "pValue": 0.821,
+  "hist": [
+   {
+    "from": 0.2853,
+    "to": 0.288,
+    "count": 1
+   },
+   {
+    "from": 0.288,
+    "to": 0.2907,
+    "count": 0
+   },
+   {
+    "from": 0.2907,
+    "to": 0.2933,
+    "count": 1
+   },
+   {
+    "from": 0.2933,
+    "to": 0.296,
+    "count": 4
+   },
+   {
+    "from": 0.296,
+    "to": 0.2986,
+    "count": 5
+   },
+   {
+    "from": 0.2986,
+    "to": 0.3013,
+    "count": 14
+   },
+   {
+    "from": 0.3013,
+    "to": 0.3039,
+    "count": 36
+   },
+   {
+    "from": 0.3039,
+    "to": 0.3066,
+    "count": 56
+   },
+   {
+    "from": 0.3066,
+    "to": 0.3092,
+    "count": 56
+   },
+   {
+    "from": 0.3092,
+    "to": 0.3119,
+    "count": 93
+   },
+   {
+    "from": 0.3119,
+    "to": 0.3146,
+    "count": 93
+   },
+   {
+    "from": 0.3146,
+    "to": 0.3172,
+    "count": 86
+   },
+   {
+    "from": 0.3172,
+    "to": 0.3199,
+    "count": 97
+   },
+   {
+    "from": 0.3199,
+    "to": 0.3225,
+    "count": 111
+   },
+   {
+    "from": 0.3225,
+    "to": 0.3252,
+    "count": 90
+   },
+   {
+    "from": 0.3252,
+    "to": 0.3278,
+    "count": 77
+   },
+   {
+    "from": 0.3278,
+    "to": 0.3305,
+    "count": 65
+   },
+   {
+    "from": 0.3305,
+    "to": 0.3332,
+    "count": 48
+   },
+   {
+    "from": 0.3332,
+    "to": 0.3358,
+    "count": 30
+   },
+   {
+    "from": 0.3358,
+    "to": 0.3385,
+    "count": 15
+   },
+   {
+    "from": 0.3385,
+    "to": 0.3411,
+    "count": 10
+   },
+   {
+    "from": 0.3411,
+    "to": 0.3438,
+    "count": 2
+   },
+   {
+    "from": 0.3438,
+    "to": 0.3464,
+    "count": 5
+   },
+   {
+    "from": 0.3464,
+    "to": 0.3491,
+    "count": 5
+   }
+  ]
+ },
+ "natural": {
+  "repeatOrders": 741,
+  "sameSellerOrders": 98,
+  "sameSellerRate": 0.1323,
+  "randomRate": 0.1295,
+  "effects": [
+   {
+    "outcome": "Order value",
+    "unit": "%",
+    "estimate": 0.1271,
+    "low": -0.088,
+    "high": 0.4177,
+    "n": 741
+   },
+   {
+    "outcome": "Units per order",
+    "unit": "%",
+    "estimate": 0.0859,
+    "low": -0.0648,
+    "high": 0.2572,
+    "n": 741
+   },
+   {
+    "outcome": "Days until next order",
+    "unit": "days",
+    "estimate": 1.8197,
+    "low": -11.7921,
+    "high": 15.344,
+    "n": 653
+   }
+  ]
+ },
+ "accounts": [
+  {
+   "CustomerID": "QUICK",
+   "Customer": "QUICK-Stop",
+   "Country": "Germany",
+   "Revenue": 110277.30488350891,
+   "Orders": 28,
+   "Sellers": 8,
+   "TopSeller": "Andrew Fuller",
+   "TopSellerShare": 0.21428571428571427,
+   "AnnualRunRate": 133618.45990954997,
+   "DiscontinuedRunRate": 4864.0,
+   "DiscontinuedShare": 0.09060214151446876
+  },
+  {
+   "CustomerID": "ERNSH",
+   "Customer": "Ernst Handel",
+   "Country": "Austria",
+   "Revenue": 104874.97835350108,
+   "Orders": 30,
+   "Sellers": 8,
+   "TopSeller": "Nancy Davolio",
+   "TopSellerShare": 0.16666666666666666,
+   "AnnualRunRate": 113282.59988466502,
+   "DiscontinuedRunRate": 16089.599990487099,
+   "DiscontinuedShare": 0.13915078901326108
+  },
+  {
+   "CustomerID": "SAVEA",
+   "Customer": "Save-a-lot Markets",
+   "Country": "USA",
+   "Revenue": 104361.94986812414,
+   "Orders": 31,
+   "Sellers": 9,
+   "TopSeller": "Nancy Davolio",
+   "TopSellerShare": 0.1935483870967742,
+   "AnnualRunRate": 108031.1599496782,
+   "DiscontinuedRunRate": 31540.599991989136,
+   "DiscontinuedShare": 0.25908331544268715
+  },
+  {
+   "CustomerID": "RATTC",
+   "Customer": "Rattlesnake Canyon Grocery",
+   "Country": "USA",
+   "Revenue": 51097.800487737826,
+   "Orders": 18,
+   "Sellers": 8,
+   "TopSeller": "Nancy Davolio",
+   "TopSellerShare": 0.2777777777777778,
+   "AnnualRunRate": 63434.199988245964,
+   "DiscontinuedRunRate": 405.0,
+   "DiscontinuedShare": 0.06465503340102143
+  },
+  {
+   "CustomerID": "HUNGO",
+   "Customer": "Hungry Owl All-Night Grocers",
+   "Country": "Ireland",
+   "Revenue": 49979.90494634077,
+   "Orders": 19,
+   "Sellers": 8,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.2631578947368421,
+   "AnnualRunRate": 81608.47998048723,
+   "DiscontinuedRunRate": 61895.0,
+   "DiscontinuedShare": 0.4245032082778945
+  },
+  {
+   "CustomerID": "HANAR",
+   "Customer": "Hanari Carnes",
+   "Country": "Brazil",
+   "Revenue": 32841.36997813583,
+   "Orders": 14,
+   "Sellers": 7,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.2857142857142857,
+   "AnnualRunRate": 95284.79996682405,
+   "DiscontinuedRunRate": 2970.0,
+   "DiscontinuedShare": 0.02692488164635023
+  },
+  {
+   "CustomerID": "KOENE",
+   "Customer": "K\u00f6niglich Essen",
+   "Country": "Germany",
+   "Revenue": 30908.383968844268,
+   "Orders": 14,
+   "Sellers": 6,
+   "TopSeller": "Nancy Davolio",
+   "TopSellerShare": 0.2857142857142857,
+   "AnnualRunRate": 30648.439999999995,
+   "DiscontinuedRunRate": 12063.84,
+   "DiscontinuedShare": 0.10005246481280827
+  },
+  {
+   "CustomerID": "FOLKO",
+   "Customer": "Folk och f\u00e4 HB",
+   "Country": "Sweden",
+   "Revenue": 29567.562475292387,
+   "Orders": 19,
+   "Sellers": 8,
+   "TopSeller": "Laura Callahan",
+   "TopSellerShare": 0.3157894736842105,
+   "AnnualRunRate": 53573.06994326114,
+   "DiscontinuedRunRate": 18568.5,
+   "DiscontinuedShare": 0.15700059833742164
+  },
+  {
+   "CustomerID": "MEREP",
+   "Customer": "M\u00e8re Paillarde",
+   "Country": "Canada",
+   "Revenue": 28872.189950353655,
+   "Orders": 13,
+   "Sellers": 7,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.3076923076923077,
+   "AnnualRunRate": 0.0,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.07847170587915923
+  },
+  {
+   "CustomerID": "WHITC",
+   "Customer": "White Clover Markets",
+   "Country": "USA",
+   "Revenue": 27363.60497214645,
+   "Orders": 14,
+   "Sellers": 7,
+   "TopSeller": "Margaret Peacock",
+   "TopSellerShare": 0.2857142857142857,
+   "AnnualRunRate": 43307.0,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.12828719033525593
+  },
+  {
+   "CustomerID": "FRANK",
+   "Customer": "Frankenversand",
+   "Country": "Germany",
+   "Revenue": 26656.559465046153,
+   "Orders": 15,
+   "Sellers": 5,
+   "TopSeller": "Nancy Davolio",
+   "TopSellerShare": 0.3333333333333333,
+   "AnnualRunRate": 16000.19999113679,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.07963919730498101
+  },
+  {
+   "CustomerID": "QUEEN",
+   "Customer": "Queen Cozinha",
+   "Country": "Brazil",
+   "Revenue": 25717.497473042273,
+   "Orders": 13,
+   "Sellers": 6,
+   "TopSeller": "Robert King",
+   "TopSellerShare": 0.23076923076923078,
+   "AnnualRunRate": 17386.99999486804,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.07168271319866704
+  },
+  {
+   "CustomerID": "BERGS",
+   "Customer": "Berglunds snabbk\u00f6p",
+   "Country": "Sweden",
+   "Revenue": 24927.57748889215,
+   "Orders": 18,
+   "Sellers": 7,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.3333333333333333,
+   "AnnualRunRate": 14565.799986961485,
+   "DiscontinuedRunRate": 5005.7999918460855,
+   "DiscontinuedShare": 0.1540733350311696
+  },
+  {
+   "CustomerID": "SUPRD",
+   "Customer": "Supr\u00eames d\u00e9lices",
+   "Country": "Belgium",
+   "Revenue": 24088.779984229805,
+   "Orders": 12,
+   "Sellers": 7,
+   "TopSeller": "Margaret Peacock",
+   "TopSellerShare": 0.3333333333333333,
+   "AnnualRunRate": 23806.399987012148,
+   "DiscontinuedRunRate": 1896.0,
+   "DiscontinuedShare": 0.18353773013388083
+  },
+  {
+   "CustomerID": "PICCO",
+   "Customer": "Piccolo und mehr",
+   "Country": "Austria",
+   "Revenue": 23128.8599542819,
+   "Orders": 10,
+   "Sellers": 6,
+   "TopSeller": "Andrew Fuller",
+   "TopSellerShare": 0.3,
+   "AnnualRunRate": 12219.9999640137,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.11336486109676691
+  },
+  {
+   "CustomerID": "HILAA",
+   "Customer": "HILARI\u00d3N-Abastos",
+   "Country": "Venezuela",
+   "Revenue": 22768.763985675276,
+   "Orders": 18,
+   "Sellers": 8,
+   "TopSeller": "Margaret Peacock",
+   "TopSellerShare": 0.2777777777777778,
+   "AnnualRunRate": 24172.799987626076,
+   "DiscontinuedRunRate": 4053.0,
+   "DiscontinuedShare": 0.13820908325313286
+  },
+  {
+   "CustomerID": "BONAP",
+   "Customer": "Bon app'",
+   "Country": "France",
+   "Revenue": 21963.252474311183,
+   "Orders": 17,
+   "Sellers": 8,
+   "TopSeller": "Margaret Peacock",
+   "TopSellerShare": 0.23529411764705882,
+   "AnnualRunRate": 20179.439985632896,
+   "DiscontinuedRunRate": 2371.199998140335,
+   "DiscontinuedShare": 0.04515724619485187
+  },
+  {
+   "CustomerID": "BOTTM",
+   "Customer": "Bottom-Dollar Markets",
+   "Country": "Canada",
+   "Revenue": 20801.599995730816,
+   "Orders": 14,
+   "Sellers": 7,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.2857142857142857,
+   "AnnualRunRate": 45354.2,
+   "DiscontinuedRunRate": 1341.0,
+   "DiscontinuedShare": 0.08259220445473946
+  },
+  {
+   "CustomerID": "RICSU",
+   "Customer": "Richter Supermarkt",
+   "Country": "Switzerland",
+   "Revenue": 19343.778986605037,
+   "Orders": 10,
+   "Sellers": 6,
+   "TopSeller": "Anne Dodsworth",
+   "TopSellerShare": 0.2,
+   "AnnualRunRate": 17963.019971142712,
+   "DiscontinuedRunRate": 8265.599986314775,
+   "DiscontinuedShare": 0.3372060857961393
+  },
+  {
+   "CustomerID": "LEHMS",
+   "Customer": "Lehmanns Marktstand",
+   "Country": "Germany",
+   "Revenue": 19261.409976339044,
+   "Orders": 15,
+   "Sellers": 6,
+   "TopSeller": "Janet Leverling",
+   "TopSellerShare": 0.26666666666666666,
+   "AnnualRunRate": 3475.7299988426266,
+   "DiscontinuedRunRate": 0.0,
+   "DiscontinuedShare": 0.13390608492152686
+  }
+ ],
+ "topN": 20,
+ "topShare": 0.6311,
+ "topRunRate": 917912.8,
+ "topDiscontinuedRunRate": 171329.14,
+ "topWithDiscontinued": 20,
+ "sellersPerTopAccount": 7.1,
+ "scenarios": [
+  {
+   "lift": 0.05,
+   "annualGain": 45895.64
+  },
+  {
+   "lift": 0.1,
+   "annualGain": 91791.28
+  },
+  {
+   "lift": 0.1271,
+   "annualGain": 116666.72,
+   "isEstimate": true
+  }
+ ],
+ "power": [
+  {
+   "months": 6,
+   "accounts": 20,
+   "detectableLift": 2.1133
+  },
+  {
+   "months": 6,
+   "accounts": 40,
+   "detectableLift": 1.0882
+  },
+  {
+   "months": 6,
+   "accounts": 89,
+   "detectableLift": 0.5739
+  },
+  {
+   "months": 10,
+   "accounts": 20,
+   "detectableLift": 0.6531
+  },
+  {
+   "months": 10,
+   "accounts": 40,
+   "detectableLift": 0.7807
+  },
+  {
+   "months": 10,
+   "accounts": 89,
+   "detectableLift": 0.4906
+  }
+ ],
+ "sellers": 9
+}

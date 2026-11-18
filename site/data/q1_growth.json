@@ -1,0 +1,1491 @@
+{
+ "windows": {
+  "before": [
+   "1996-07-01",
+   "1997-04-30"
+  ],
+  "after": [
+   "1997-07-01",
+   "1998-04-30"
+  ]
+ },
+ "before": {
+  "revenue": 399405.847,
+  "orders": 275.0,
+  "customers": 80.0,
+  "ordersPerCustomer": 3.4375,
+  "avgOrderValue": 1452.3849,
+  "linesPerOrder": 2.6436,
+  "unitsPerLine": 24.4787,
+  "pricePerUnit": 24.1559,
+  "discountRate": 0.0709
+ },
+ "after": {
+  "revenue": 757909.4684,
+  "orders": 479.0,
+  "customers": 87.0,
+  "ordersPerCustomer": 5.5057,
+  "avgOrderValue": 1582.2745,
+  "linesPerOrder": 2.499,
+  "unitsPerLine": 24.061,
+  "pricePerUnit": 28.0813,
+  "discountRate": 0.0629
+ },
+ "decomposition": [
+  {
+   "driver": "Active customers",
+   "change": 0.0875,
+   "shareOfGrowth": 0.1309,
+   "dollars": 46944.24
+  },
+  {
+   "driver": "Orders per customer",
+   "change": 0.6017,
+   "shareOfGrowth": 0.7353,
+   "dollars": 263621.82
+  },
+  {
+   "driver": "Average order value",
+   "change": 0.0894,
+   "shareOfGrowth": 0.1337,
+   "dollars": 47937.56
+  }
+ ],
+ "monthly": [
+  {
+   "Month": "1996-07",
+   "Orders": 22,
+   "Customers": 20,
+   "Revenue": 27861.894956517222,
+   "AvgOrderValue": 1266.4497707507828
+  },
+  {
+   "Month": "1996-08",
+   "Orders": 25,
+   "Customers": 18,
+   "Revenue": 25485.274986581506,
+   "AvgOrderValue": 1019.4109994632603
+  },
+  {
+   "Month": "1996-09",
+   "Orders": 23,
+   "Customers": 19,
+   "Revenue": 26381.399988487363,
+   "AvgOrderValue": 1147.0173908037984
+  },
+  {
+   "Month": "1996-10",
+   "Orders": 26,
+   "Customers": 20,
+   "Revenue": 37515.724914484475,
+   "AvgOrderValue": 1442.9124967109415
+  },
+  {
+   "Month": "1996-11",
+   "Orders": 25,
+   "Customers": 21,
+   "Revenue": 45600.04494312592,
+   "AvgOrderValue": 1824.0017977250368
+  },
+  {
+   "Month": "1996-12",
+   "Orders": 31,
+   "Customers": 25,
+   "Revenue": 45239.62996543199,
+   "AvgOrderValue": 1459.3429021107092
+  },
+  {
+   "Month": "1997-01",
+   "Orders": 33,
+   "Customers": 27,
+   "Revenue": 61258.0699304849,
+   "AvgOrderValue": 1856.3051494086333
+  },
+  {
+   "Month": "1997-02",
+   "Orders": 29,
+   "Customers": 21,
+   "Revenue": 38483.63494294286,
+   "AvgOrderValue": 1327.0218945842366
+  },
+  {
+   "Month": "1997-03",
+   "Orders": 30,
+   "Customers": 24,
+   "Revenue": 38547.21996988952,
+   "AvgOrderValue": 1284.9073323296507
+  },
+  {
+   "Month": "1997-04",
+   "Orders": 31,
+   "Customers": 27,
+   "Revenue": 53032.95242693589,
+   "AvgOrderValue": 1710.7404008688995
+  },
+  {
+   "Month": "1997-05",
+   "Orders": 32,
+   "Customers": 26,
+   "Revenue": 53781.2899279859,
+   "AvgOrderValue": 1680.6653102495593
+  },
+  {
+   "Month": "1997-06",
+   "Orders": 30,
+   "Customers": 25,
+   "Revenue": 36362.80244842321,
+   "AvgOrderValue": 1212.0934149474404
+  },
+  {
+   "Month": "1997-07",
+   "Orders": 33,
+   "Customers": 25,
+   "Revenue": 51020.85745272499,
+   "AvgOrderValue": 1546.0865894765147
+  },
+  {
+   "Month": "1997-08",
+   "Orders": 33,
+   "Customers": 30,
+   "Revenue": 47287.66994824592,
+   "AvgOrderValue": 1432.9596954013916
+  },
+  {
+   "Month": "1997-09",
+   "Orders": 37,
+   "Customers": 27,
+   "Revenue": 55629.24245656654,
+   "AvgOrderValue": 1503.4930393666632
+  },
+  {
+   "Month": "1997-10",
+   "Orders": 38,
+   "Customers": 28,
+   "Revenue": 66749.22595180024,
+   "AvgOrderValue": 1756.5585776789537
+  },
+  {
+   "Month": "1997-11",
+   "Orders": 34,
+   "Customers": 27,
+   "Revenue": 43533.808967249286,
+   "AvgOrderValue": 1280.4061460955672
+  },
+  {
+   "Month": "1997-12",
+   "Orders": 48,
+   "Customers": 37,
+   "Revenue": 71398.42844673291,
+   "AvgOrderValue": 1487.4672593069356
+  },
+  {
+   "Month": "1998-01",
+   "Orders": 55,
+   "Customers": 42,
+   "Revenue": 94222.11038288684,
+   "AvgOrderValue": 1713.1292796888515
+  },
+  {
+   "Month": "1998-02",
+   "Orders": 54,
+   "Customers": 35,
+   "Revenue": 99415.2874558689,
+   "AvgOrderValue": 1841.02384177535
+  },
+  {
+   "Month": "1998-03",
+   "Orders": 73,
+   "Customers": 49,
+   "Revenue": 104854.15493767225,
+   "AvgOrderValue": 1436.358286817428
+  },
+  {
+   "Month": "1998-04",
+   "Orders": 74,
+   "Customers": 51,
+   "Revenue": 123798.6824212195,
+   "AvgOrderValue": 1672.9551678543176
+  }
+ ],
+ "segments": [
+  {
+   "Segment": "Lapsed",
+   "Customers": 2,
+   "Before": 247.8,
+   "After": 0.0,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 0.0,
+   "Change": -247.8,
+   "ShareOfGrowth": -0.000691206406883748,
+   "ShareOfAfter": 0.0
+  },
+  {
+   "Segment": "New",
+   "Customers": 9,
+   "Before": 0.0,
+   "After": 43709.7474646724,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 40.0,
+   "Change": 43709.7474646724,
+   "ShareOfGrowth": 0.12192275016485965,
+   "ShareOfAfter": 0.057671462471286336
+  },
+  {
+   "Segment": "Returning",
+   "Customers": 78,
+   "Before": 399158.04702488164,
+   "After": 714199.720956295,
+   "OrdersBefore": 273.0,
+   "OrdersAfter": 439.0,
+   "Change": 315041.6739314134,
+   "ShareOfGrowth": 0.8787684562420242,
+   "ShareOfAfter": 0.9423285375287136
+  }
+ ],
+ "customers": [
+  {
+   "CustomerID": "SAVEA",
+   "CompanyName": "Save-a-lot Markets",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 21988.43992549122,
+   "After": 75098.70995944143,
+   "OrdersBefore": 6.0,
+   "OrdersAfter": 23.0,
+   "Change": 53110.27003395021,
+   "CumShareOfGrowth": 0.14814430556413363
+  },
+  {
+   "CustomerID": "QUICK",
+   "CompanyName": "QUICK-Stop",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 27535.839955665175,
+   "After": 67492.4899552559,
+   "OrdersBefore": 9.0,
+   "OrdersAfter": 16.0,
+   "Change": 39956.649999590736,
+   "CumShareOfGrowth": 0.25959827036368416
+  },
+  {
+   "CustomerID": "ERNSH",
+   "CompanyName": "Ernst Handel",
+   "Country": "Austria",
+   "Segment": "Returning",
+   "Before": 34451.22996557094,
+   "After": 64655.160891791034,
+   "OrdersBefore": 11.0,
+   "OrdersAfter": 17.0,
+   "Change": 30203.93092622009,
+   "CumShareOfGrowth": 0.3438482726610106
+  },
+  {
+   "CustomerID": "HANAR",
+   "CompanyName": "Hanari Carnes",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 2997.3999896526348,
+   "After": 27897.449991706017,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 11.0,
+   "Change": 24900.05000205338,
+   "CumShareOfGrowth": 0.4133037774759621
+  },
+  {
+   "CustomerID": "KOENE",
+   "CompanyName": "K\u00f6niglich Essen",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 4936.399995401502,
+   "After": 25502.873973810674,
+   "OrdersBefore": 6.0,
+   "OrdersAfter": 7.0,
+   "Change": 20566.473978409173,
+   "CumShareOfGrowth": 0.4706713262285218
+  },
+  {
+   "CustomerID": "FOLKO",
+   "CompanyName": "Folk och f\u00e4 HB",
+   "Country": "Sweden",
+   "Segment": "Returning",
+   "Before": 3106.0449905648834,
+   "After": 21394.81748581529,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 12.0,
+   "Change": 18288.772495250407,
+   "CumShareOfGrowth": 0.5216855180071995
+  },
+  {
+   "CustomerID": "GREAL",
+   "CompanyName": "Great Lakes Food Market",
+   "Country": "USA",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 18115.249976898955,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 10.0,
+   "Change": 18115.249976898955,
+   "CumShareOfGrowth": 0.5722156909141133
+  },
+  {
+   "CustomerID": "HUNGO",
+   "CompanyName": "Hungry Owl All-Night Grocers",
+   "Country": "Ireland",
+   "Segment": "Returning",
+   "Before": 14994.304982266576,
+   "After": 32466.599972865883,
+   "OrdersBefore": 8.0,
+   "OrdersAfter": 10.0,
+   "Change": 17472.29499059931,
+   "CumShareOfGrowth": 0.6209524231193798
+  },
+  {
+   "CustomerID": "WHITC",
+   "CompanyName": "White Clover Markets",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 5952.174992263317,
+   "After": 20482.679979883134,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 8.0,
+   "Change": 14530.504987619817,
+   "CumShareOfGrowth": 0.6614834083602962
+  },
+  {
+   "CustomerID": "LINOD",
+   "CompanyName": "LINO-Delicateses",
+   "Country": "Venezuela",
+   "Segment": "Returning",
+   "Before": 1983.999997377396,
+   "After": 14492.564989171922,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 10.0,
+   "Change": 12508.564991794527,
+   "CumShareOfGrowth": 0.6963744505848729
+  },
+  {
+   "CustomerID": "BERGS",
+   "CompanyName": "Berglunds snabbk\u00f6p",
+   "Country": "Sweden",
+   "Segment": "Returning",
+   "Before": 5531.0,
+   "After": 14702.842489854247,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 11.0,
+   "Change": 9171.842489854247,
+   "CumShareOfGrowth": 0.7219581321503122
+  },
+  {
+   "CustomerID": "MAISD",
+   "CompanyName": "Maison Dewey",
+   "Country": "Belgium",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 8790.074990512729,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 6.0,
+   "Change": 8790.074990512729,
+   "CumShareOfGrowth": 0.7464769221036254
+  },
+  {
+   "CustomerID": "GODOS",
+   "CompanyName": "Godos Cocina T\u00edpica",
+   "Country": "Spain",
+   "Segment": "Returning",
+   "Before": 1117.799998149276,
+   "After": 9645.259998385609,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 8.0,
+   "Change": 8527.460000236333,
+   "CumShareOfGrowth": 0.7702631811294859
+  },
+  {
+   "CustomerID": "BOTTM",
+   "CompanyName": "Bottom-Dollar Markets",
+   "Country": "Canada",
+   "Segment": "Returning",
+   "Before": 6345.0499957308175,
+   "After": 14456.55,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 9.0,
+   "Change": 8111.500004269182,
+   "CumShareOfGrowth": 0.792889172947034
+  },
+  {
+   "CustomerID": "RICSU",
+   "CompanyName": "Richter Supermarkt",
+   "Country": "Switzerland",
+   "Segment": "Returning",
+   "Before": 4588.099998354912,
+   "After": 12433.778991742955,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 6.0,
+   "Change": 7845.678993388043,
+   "CumShareOfGrowth": 0.8147736910526959
+  },
+  {
+   "CustomerID": "AROUT",
+   "CompanyName": "Around the Horn",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 1786.6999993249774,
+   "After": 9461.049992913753,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 9.0,
+   "Change": 7674.349993588776,
+   "CumShareOfGrowth": 0.8361803088260485
+  },
+  {
+   "CustomerID": "FOLIG",
+   "CompanyName": "Folies gourmandes",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 2378.4,
+   "After": 9288.5,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 3.0,
+   "Change": 6910.1,
+   "CumShareOfGrowth": 0.8554551489883059
+  },
+  {
+   "CustomerID": "GOURL",
+   "CompanyName": "Gourmet Lanchonetes",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 1020.0,
+   "After": 7394.1349921560295,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 8.0,
+   "Change": 6374.1349921560295,
+   "CumShareOfGrowth": 0.8732349833100175
+  },
+  {
+   "CustomerID": "EASTC",
+   "CompanyName": "Eastern Connection",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 4013.0,
+   "After": 9951.685,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 5.0,
+   "Change": 5938.6849999999995,
+   "CumShareOfGrowth": 0.8898001855717785
+  },
+  {
+   "CustomerID": "VAFFE",
+   "CompanyName": "Vaffeljernet",
+   "Country": "Denmark",
+   "Segment": "Returning",
+   "Before": 5117.799997004866,
+   "After": 10726.124991318211,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 8.0,
+   "Change": 5608.324994313345,
+   "CumShareOfGrowth": 0.90544389085005
+  },
+  {
+   "CustomerID": "OTTIK",
+   "CompanyName": "Ottilies K\u00e4seladen",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 1434.0,
+   "After": 6815.279993124306,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 5.0,
+   "Change": 5381.279993124306,
+   "CumShareOfGrowth": 0.9204542831360986
+  },
+  {
+   "CustomerID": "HILAA",
+   "CompanyName": "HILARI\u00d3N-Abastos",
+   "Country": "Venezuela",
+   "Segment": "Returning",
+   "Before": 8433.499996837974,
+   "After": 13454.763988837301,
+   "OrdersBefore": 6.0,
+   "OrdersAfter": 11.0,
+   "Change": 5021.263991999327,
+   "CumShareOfGrowth": 0.9344604568323238
+  },
+  {
+   "CustomerID": "REGGC",
+   "CompanyName": "Reggiani Caseifici",
+   "Country": "Italy",
+   "Segment": "Returning",
+   "Before": 789.5399995669723,
+   "After": 5769.9999935775995,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 8.0,
+   "Change": 4980.459994010627,
+   "CumShareOfGrowth": 0.9483528129949079
+  },
+  {
+   "CustomerID": "RICAR",
+   "CompanyName": "Ricardo Adocicados",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 3554.899995827675,
+   "After": 7930.899996206164,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 6.0,
+   "Change": 4376.00000037849,
+   "CumShareOfGrowth": 0.9605591053144594
+  },
+  {
+   "CustomerID": "CHOPS",
+   "CompanyName": "Chop-suey Chinese",
+   "Country": "Switzerland",
+   "Segment": "Returning",
+   "Before": 3988.4199944108727,
+   "After": 8360.45999057442,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 5.0,
+   "Change": 4372.039996163547,
+   "CumShareOfGrowth": 0.97275435170873
+  },
+  {
+   "CustomerID": "ALFKI",
+   "CompanyName": "Alfreds Futterkiste",
+   "Country": "Germany",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 4272.99999922961,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 6.0,
+   "Change": 4272.99999922961,
+   "CumShareOfGrowth": 0.9846733386985677
+  },
+  {
+   "CustomerID": "ISLAT",
+   "CompanyName": "Island Trading",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 1131.6,
+   "After": 5014.7,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 6.0,
+   "Change": 3883.1,
+   "CumShareOfGrowth": 0.9955047495079715
+  },
+  {
+   "CustomerID": "BONAP",
+   "CompanyName": "Bon app'",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 8445.079980207982,
+   "After": 11907.022494514473,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 10.0,
+   "Change": 3461.942514306491,
+   "CumShareOfGrowth": 1.0051613953762197
+  },
+  {
+   "CustomerID": "SANTG",
+   "CompanyName": "Sant\u00e9 Gourmet",
+   "Country": "Norway",
+   "Segment": "Returning",
+   "Before": 1258.4,
+   "After": 4476.75,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 4.0,
+   "Change": 3218.35,
+   "CumShareOfGrowth": 1.014138571080797
+  },
+  {
+   "CustomerID": "FRANR",
+   "CompanyName": "France restauration",
+   "Country": "France",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 3172.1600000000003,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 3.0,
+   "Change": 3172.1600000000003,
+   "CumShareOfGrowth": 1.0229869056879817
+  },
+  {
+   "CustomerID": "FRANK",
+   "CompanyName": "Frankenversand",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 11260.039972782137,
+   "After": 14324.094492264017,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 9.0,
+   "Change": 3064.0545194818806,
+   "CumShareOfGrowth": 1.0315336938837323
+  },
+  {
+   "CustomerID": "LETSS",
+   "CompanyName": "Let's Stop N Shop",
+   "Country": "USA",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 2758.72249803111,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 3.0,
+   "Change": 2758.72249803111,
+   "CumShareOfGrowth": 1.0392287974569907
+  },
+  {
+   "CustomerID": "WILMK",
+   "CompanyName": "Wilman Kala",
+   "Country": "Finland",
+   "Segment": "Returning",
+   "Before": 440.0,
+   "After": 3161.35,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 7.0,
+   "Change": 2721.35,
+   "CumShareOfGrowth": 1.0468196552268578
+  },
+  {
+   "CustomerID": "OCEAN",
+   "CompanyName": "Oc\u00e9ano Atl\u00e1ntico Ltda.",
+   "Country": "Argentina",
+   "Segment": "Returning",
+   "Before": 319.20000000000005,
+   "After": 3031.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 3.0,
+   "Change": 2711.8,
+   "CumShareOfGrowth": 1.0543838744931504
+  },
+  {
+   "CustomerID": "THEBI",
+   "CompanyName": "The Big Cheese",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 336.0,
+   "After": 3025.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 3.0,
+   "Change": 2689.0,
+   "CumShareOfGrowth": 1.061884496075517
+  },
+  {
+   "CustomerID": "WOLZA",
+   "CompanyName": "Wolski  Zajazd",
+   "Country": "Poland",
+   "Segment": "Returning",
+   "Before": 459.0,
+   "After": 3072.95,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 6.0,
+   "Change": 2613.95,
+   "CumShareOfGrowth": 1.0691757752816258
+  },
+  {
+   "CustomerID": "DRACD",
+   "CompanyName": "Drachenblut Delikatessen",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 533.6,
+   "After": 3142.76,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 3.0,
+   "Change": 2609.1600000000003,
+   "CumShareOfGrowth": 1.076453693395366
+  },
+  {
+   "CustomerID": "SPECD",
+   "CompanyName": "Sp\u00e9cialit\u00e9s du monde",
+   "Country": "France",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 2423.35,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 4.0,
+   "Change": 2423.35,
+   "CumShareOfGrowth": 1.083213318278827
+  },
+  {
+   "CustomerID": "LONEP",
+   "CompanyName": "Lonesome Pine Restaurant",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 712.0,
+   "After": 3129.4,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 5.0,
+   "Change": 2417.4,
+   "CumShareOfGrowth": 1.0899563463982815
+  },
+  {
+   "CustomerID": "BLAUS",
+   "CompanyName": "Blauer See Delikatessen",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 285.8,
+   "After": 2624.0,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 4.0,
+   "Change": 2338.2,
+   "CumShareOfGrowth": 1.0964784562472547
+  },
+  {
+   "CustomerID": "BOLID",
+   "CompanyName": "B\u00f3lido Comidas preparadas",
+   "Country": "Spain",
+   "Segment": "Returning",
+   "Before": 982.0,
+   "After": 3250.8499991655353,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 2.0,
+   "Change": 2268.8499991655353,
+   "CumShareOfGrowth": 1.1028071231386245
+  },
+  {
+   "CustomerID": "TRADH",
+   "CompanyName": "Tradi\u00e7\u00e3o Hipermercados",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 3349.3999998509885,
+   "After": 5364.663993295134,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 4.0,
+   "Change": 2015.2639934441454,
+   "CumShareOfGrowth": 1.1084284443001688
+  },
+  {
+   "CustomerID": "LACOR",
+   "CompanyName": "La corne d'abondance",
+   "Country": "France",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 1992.05,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 4.0,
+   "Change": 1992.05,
+   "CumShareOfGrowth": 1.1139850129960234
+  },
+  {
+   "CustomerID": "RANCH",
+   "CompanyName": "Rancho grande",
+   "Country": "Argentina",
+   "Segment": "Returning",
+   "Before": 443.4,
+   "After": 2400.7,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 4.0,
+   "Change": 1957.2999999999997,
+   "CumShareOfGrowth": 1.1194446510113325
+  },
+  {
+   "CustomerID": "THECR",
+   "CompanyName": "The Cracker Box",
+   "Country": "USA",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 1947.24,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 3.0,
+   "Change": 1947.24,
+   "CumShareOfGrowth": 1.124876227943295
+  },
+  {
+   "CustomerID": "MAGAA",
+   "CompanyName": "Magazzini Alimentari Riuniti",
+   "Country": "Italy",
+   "Segment": "Returning",
+   "Before": 2726.2899985231456,
+   "After": 4449.9249882873155,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 6.0,
+   "Change": 1723.6349897641699,
+   "CumShareOfGrowth": 1.1296840872978309
+  },
+  {
+   "CustomerID": "PRINI",
+   "CompanyName": "Princesa Isabel Vinhos",
+   "Country": "Portugal",
+   "Segment": "Returning",
+   "Before": 2411.0399945020677,
+   "After": 4044.89999010563,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 2.0,
+   "Change": 1633.8599956035623,
+   "CumShareOfGrowth": 1.134241530788195
+  },
+  {
+   "CustomerID": "WELLI",
+   "CompanyName": "Wellington Importadora",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 2225.639997172356,
+   "After": 3842.559998048097,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 7.0,
+   "Change": 1616.9200008757412,
+   "CumShareOfGrowth": 1.1387517223298567
+  },
+  {
+   "CustomerID": "FRANS",
+   "CompanyName": "Franchi S.p.A.",
+   "Country": "Italy",
+   "Segment": "Returning",
+   "Before": 49.8,
+   "After": 1495.9,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 5.0,
+   "Change": 1446.1000000000001,
+   "CumShareOfGrowth": 1.1427854333266063
+  },
+  {
+   "CustomerID": "CACTU",
+   "CompanyName": "Cactus Comidas para llevar",
+   "Country": "Argentina",
+   "Segment": "Returning",
+   "Before": 225.5,
+   "After": 1589.3,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 5.0,
+   "Change": 1363.8,
+   "CumShareOfGrowth": 1.1465895789993588
+  },
+  {
+   "CustomerID": "HUNGC",
+   "CompanyName": "Hungry Coyote Import Store",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 882.4,
+   "After": 2180.8,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 2.0,
+   "Change": 1298.4,
+   "CumShareOfGrowth": 1.1502112997366383
+  },
+  {
+   "CustomerID": "TOMSP",
+   "CompanyName": "Toms Spezialit\u00e4ten",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 700.2399979010225,
+   "After": 1974.4,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 2.0,
+   "Change": 1274.1600020989777,
+   "CumShareOfGrowth": 1.1537654061000195
+  },
+  {
+   "CustomerID": "ANATR",
+   "CompanyName": "Ana Trujillo Emparedados y helados",
+   "Country": "Mexico",
+   "Segment": "Returning",
+   "Before": 88.8,
+   "After": 1314.15,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 3.0,
+   "Change": 1225.3500000000001,
+   "CumShareOfGrowth": 1.1571833632052453
+  },
+  {
+   "CustomerID": "DUMON",
+   "CompanyName": "Du monde entier",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 268.79999999999995,
+   "After": 1347.1,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 3.0,
+   "Change": 1078.3,
+   "CumShareOfGrowth": 1.1601911431428673
+  },
+  {
+   "CustomerID": "LEHMS",
+   "CompanyName": "Lehmanns Marktstand",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 6804.21499491036,
+   "After": 7564.019991875888,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 6.0,
+   "Change": 759.8049969655285,
+   "CumShareOfGrowth": 1.1623105220043881
+  },
+  {
+   "CustomerID": "BSBEV",
+   "CompanyName": "B's Beverages",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 2193.6,
+   "After": 2924.0,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 4.0,
+   "Change": 730.4000000000001,
+   "CumShareOfGrowth": 1.1643478793877131
+  },
+  {
+   "CustomerID": "ANTON",
+   "CompanyName": "Antonio Moreno Taquer\u00eda",
+   "Country": "Mexico",
+   "Segment": "Returning",
+   "Before": 1152.2624947473412,
+   "After": 1848.864994296432,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 3.0,
+   "Change": 696.6024995490909,
+   "CumShareOfGrowth": 1.1662909629661617
+  },
+  {
+   "CustomerID": "QUEDE",
+   "CompanyName": "Que Del\u00edcia",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 3003.0699946105487,
+   "After": 3661.7399988274274,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 5.0,
+   "Change": 658.6700042168786,
+   "CumShareOfGrowth": 1.1681282387003702
+  },
+  {
+   "CustomerID": "MORGK",
+   "CompanyName": "Morgenstern Gesundkost",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 1200.8,
+   "After": 1694.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 3.0,
+   "Change": 493.20000000000005,
+   "CumShareOfGrowth": 1.1695039570210928
+  },
+  {
+   "CustomerID": "FAMIA",
+   "CompanyName": "Familia Arquibaldo",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 1730.5499917052691,
+   "After": 2066.9999993890524,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 2.0,
+   "Change": 336.45000768378327,
+   "CumShareOfGrowth": 1.1704424412862546
+  },
+  {
+   "CustomerID": "TRAIH",
+   "CompanyName": "Trail's Head Gourmet Provisioners",
+   "Country": "USA",
+   "Segment": "New",
+   "Before": 0.0,
+   "After": 237.89999999999998,
+   "OrdersBefore": 0.0,
+   "OrdersAfter": 1.0,
+   "Change": 237.89999999999998,
+   "CumShareOfGrowth": 1.1711060329093284
+  },
+  {
+   "CustomerID": "CONSH",
+   "CompanyName": "Consolidated Holdings",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 787.6,
+   "After": 931.5,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 1.0,
+   "Change": 143.89999999999998,
+   "CumShareOfGrowth": 1.171507423554811
+  },
+  {
+   "CustomerID": "ROMEY",
+   "CompanyName": "Romero y tomillo",
+   "Country": "Spain",
+   "Segment": "Returning",
+   "Before": 740.4,
+   "After": 726.89,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 2.0,
+   "Change": -13.509999999999991,
+   "CumShareOfGrowth": 1.1714697391377125
+  },
+  {
+   "CustomerID": "LAUGB",
+   "CompanyName": "Laughing Bacchus Wine Cellars",
+   "Country": "Canada",
+   "Segment": "Returning",
+   "Before": 278.0,
+   "After": 244.5,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 2.0,
+   "Change": -33.5,
+   "CumShareOfGrowth": 1.1713762951722944
+  },
+  {
+   "CustomerID": "NORTS",
+   "CompanyName": "North/South",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 352.0,
+   "After": 297.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 2.0,
+   "Change": -55.0,
+   "CumShareOfGrowth": 1.1712228797066826
+  },
+  {
+   "CustomerID": "CENTC",
+   "CompanyName": "Centro comercial Moctezuma",
+   "Country": "Mexico",
+   "Segment": "Lapsed",
+   "Before": 100.8,
+   "After": 0.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 0.0,
+   "Change": -100.8,
+   "CumShareOfGrowth": 1.1709417109987976
+  },
+  {
+   "CustomerID": "LAZYK",
+   "CompanyName": "Lazy K Kountry Store",
+   "Country": "USA",
+   "Segment": "Lapsed",
+   "Before": 147.0,
+   "After": 0.0,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 0.0,
+   "Change": -147.0,
+   "CumShareOfGrowth": 1.1705316732997988
+  },
+  {
+   "CustomerID": "QUEEN",
+   "CompanyName": "Queen Cozinha",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 11931.379997207225,
+   "After": 11759.037490049564,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 9.0,
+   "Change": -172.3425071576603,
+   "CumShareOfGrowth": 1.170050945918339
+  },
+  {
+   "CustomerID": "GALED",
+   "CompanyName": "Galer\u00eda del gastr\u00f3nomo",
+   "Country": "Spain",
+   "Segment": "Returning",
+   "Before": 474.20000000000005,
+   "After": 207.5,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 2.0,
+   "Change": -266.70000000000005,
+   "CumShareOfGrowth": 1.1693070203787268
+  },
+  {
+   "CustomerID": "VINET",
+   "CompanyName": "Vins et alcools Chevalier",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 660.2,
+   "After": 379.8,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 2.0,
+   "Change": -280.40000000000003,
+   "CumShareOfGrowth": 1.1685248804413166
+  },
+  {
+   "CustomerID": "VICTE",
+   "CompanyName": "Victuailles en stock",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 3354.379997368157,
+   "After": 3016.0499844014657,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 4.0,
+   "Change": -338.33001296669136,
+   "CumShareOfGrowth": 1.1675811521418669
+  },
+  {
+   "CustomerID": "OLDWO",
+   "CompanyName": "Old World Delicatessen",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 7935.449993805588,
+   "After": 7335.662497894466,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 6.0,
+   "Change": -599.7874959111223,
+   "CumShareOfGrowth": 1.1659081216336242
+  },
+  {
+   "CustomerID": "GROSR",
+   "CompanyName": "GROSELLA-Restaurante",
+   "Country": "Venezuela",
+   "Segment": "Returning",
+   "Before": 1101.2,
+   "After": 387.5,
+   "OrdersBefore": 1.0,
+   "OrdersAfter": 1.0,
+   "Change": -713.7,
+   "CumShareOfGrowth": 1.1639173467644033
+  },
+  {
+   "CustomerID": "SUPRD",
+   "CompanyName": "Supr\u00eames d\u00e9lices",
+   "Country": "Belgium",
+   "Segment": "Returning",
+   "Before": 12416.179987476768,
+   "After": 11672.599996753037,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 7.0,
+   "Change": -743.5799907237306,
+   "CumShareOfGrowth": 1.1618432254826487
+  },
+  {
+   "CustomerID": "LAMAI",
+   "CompanyName": "La maison d'Asie",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 5090.479995676876,
+   "After": 4237.719993528724,
+   "OrdersBefore": 8.0,
+   "OrdersAfter": 6.0,
+   "Change": -852.7600021481512,
+   "CumShareOfGrowth": 1.159464560522927
+  },
+  {
+   "CustomerID": "SEVES",
+   "CompanyName": "Seven Seas Imports",
+   "Country": "UK",
+   "Segment": "Returning",
+   "Before": 6600.879990333318,
+   "After": 5377.334997091069,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 3.0,
+   "Change": -1223.544993242249,
+   "CumShareOfGrowth": 1.1560516382531951
+  },
+  {
+   "CustomerID": "PERIC",
+   "CompanyName": "Pericles Comidas cl\u00e1sicas",
+   "Country": "Mexico",
+   "Segment": "Returning",
+   "Before": 2746.2,
+   "After": 1196.0,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 1.0,
+   "Change": -1550.1999999999998,
+   "CumShareOfGrowth": 1.1517275536206237
+  },
+  {
+   "CustomerID": "FURIB",
+   "CompanyName": "Furia Bacalhau e Frutos do Mar",
+   "Country": "Portugal",
+   "Segment": "Returning",
+   "Before": 3173.0849939197306,
+   "After": 1577.0374901779003,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 3.0,
+   "Change": -1596.0475037418303,
+   "CumShareOfGrowth": 1.147275583240167
+  },
+  {
+   "CustomerID": "RATTC",
+   "CompanyName": "Rattlesnake Canyon Grocery",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 24839.979994250833,
+   "After": 22878.04999706149,
+   "OrdersBefore": 8.0,
+   "OrdersAfter": 7.0,
+   "Change": -1961.9299971893415,
+   "CumShareOfGrowth": 1.1418030304398659
+  },
+  {
+   "CustomerID": "WANDK",
+   "CompanyName": "Die Wandernde Kuh",
+   "Country": "Germany",
+   "Segment": "Returning",
+   "Before": 5781.799991478027,
+   "After": 3806.624997337535,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 5.0,
+   "Change": -1975.1749941404914,
+   "CumShareOfGrowth": 1.1362935324145773
+  },
+  {
+   "CustomerID": "COMMI",
+   "CompanyName": "Com\u00e9rcio Mineiro",
+   "Country": "Brazil",
+   "Segment": "Returning",
+   "Before": 3297.0,
+   "After": 513.75,
+   "OrdersBefore": 3.0,
+   "OrdersAfter": 2.0,
+   "Change": -2783.25,
+   "CumShareOfGrowth": 1.1285300125115942
+  },
+  {
+   "CustomerID": "LILAS",
+   "CompanyName": "LILA-Supermercado",
+   "Country": "Venezuela",
+   "Segment": "Returning",
+   "Before": 8344.779985570909,
+   "After": 5553.399994947016,
+   "OrdersBefore": 7.0,
+   "OrdersAfter": 4.0,
+   "Change": -2791.379990623893,
+   "CumShareOfGrowth": 1.120743815039575
+  },
+  {
+   "CustomerID": "PICCO",
+   "CompanyName": "Piccolo und mehr",
+   "Country": "Austria",
+   "Segment": "Returning",
+   "Before": 11123.47996798754,
+   "After": 7825.37998629436,
+   "OrdersBefore": 4.0,
+   "OrdersAfter": 5.0,
+   "Change": -3298.09998169318,
+   "CumShareOfGrowth": 1.1115441869609248
+  },
+  {
+   "CustomerID": "WARTH",
+   "CompanyName": "Wartian Herkku",
+   "Country": "Finland",
+   "Segment": "Returning",
+   "Before": 7247.559998029471,
+   "After": 3465.9424860678623,
+   "OrdersBefore": 8.0,
+   "OrdersAfter": 4.0,
+   "Change": -3781.6175119616087,
+   "CumShareOfGrowth": 1.1009958485725002
+  },
+  {
+   "CustomerID": "SPLIR",
+   "CompanyName": "Split Rail Beer & Ale",
+   "Country": "USA",
+   "Segment": "Returning",
+   "Before": 8334.629993834347,
+   "After": 3106.9999925866728,
+   "OrdersBefore": 6.0,
+   "OrdersAfter": 3.0,
+   "Change": -5227.630001247675,
+   "CumShareOfGrowth": 1.0864140432872698
+  },
+  {
+   "CustomerID": "TORTU",
+   "CompanyName": "Tortuga Restaurante",
+   "Country": "Mexico",
+   "Segment": "Returning",
+   "Before": 7564.35,
+   "After": 2049.35,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 3.0,
+   "Change": -5515.0,
+   "CumShareOfGrowth": 1.0710306561445584
+  },
+  {
+   "CustomerID": "MEREP",
+   "CompanyName": "M\u00e8re Paillarde",
+   "Country": "Canada",
+   "Segment": "Returning",
+   "Before": 15960.33995715082,
+   "After": 9806.699996195734,
+   "OrdersBefore": 6.0,
+   "OrdersAfter": 5.0,
+   "Change": -6153.639960955086,
+   "CumShareOfGrowth": 1.0538658645115158
+  },
+  {
+   "CustomerID": "SIMOB",
+   "CompanyName": "Simons bistro",
+   "Country": "Denmark",
+   "Segment": "Returning",
+   "Before": 11540.999997639656,
+   "After": 4208.812497407198,
+   "OrdersBefore": 2.0,
+   "OrdersAfter": 3.0,
+   "Change": -7332.187500232458,
+   "CumShareOfGrowth": 1.033413665251493
+  },
+  {
+   "CustomerID": "BLONP",
+   "CompanyName": "Blondel p\u00e8re et fils",
+   "Country": "France",
+   "Segment": "Returning",
+   "Before": 13818.919996777176,
+   "After": 1840.0,
+   "OrdersBefore": 5.0,
+   "OrdersAfter": 3.0,
+   "Change": -11978.919996777176,
+   "CumShareOfGrowth": 0.9999999999999989
+  }
+ ],
+ "countries": [
+  {
+   "Country": "USA",
+   "Before": 71128.0748996453,
+   "After": 160296.41490179725,
+   "Change": 89168.34000215195,
+   "Growth": 1.2536307235639326,
+   "ShareOfGrowth": 0.24872367998658523
+  },
+  {
+   "Country": "Germany",
+   "Before": 60472.73490813822,
+   "After": 139213.54340289795,
+   "Change": 78740.80849475972,
+   "Growth": 1.3020877692132138,
+   "ShareOfGrowth": 0.2196374145067965
+  },
+  {
+   "Country": "Brazil",
+   "Before": 33109.339966026695,
+   "After": 70431.23645967749,
+   "Change": 37321.89649365079,
+   "Growth": 1.1272316673164302,
+   "ShareOfGrowth": 0.10410465687434833
+  },
+  {
+   "Country": "Sweden",
+   "Before": 8637.044990564882,
+   "After": 36097.659975669536,
+   "Change": 27460.614985104654,
+   "Growth": 3.179399321770659,
+   "ShareOfGrowth": 0.07659787334411701
+  },
+  {
+   "Country": "Austria",
+   "Before": 45574.709933558486,
+   "After": 72480.54087808539,
+   "Change": 26905.830944526904,
+   "Growth": 0.5903675741162548,
+   "ShareOfGrowth": 0.07505037421867636
+  },
+  {
+   "Country": "Ireland",
+   "Before": 14994.304982266576,
+   "After": 32466.599972865883,
+   "Change": 17472.29499059931,
+   "Growth": 1.1652620785867298,
+   "ShareOfGrowth": 0.04873673220526657
+  },
+  {
+   "Country": "UK",
+   "Before": 16865.379989658297,
+   "After": 33957.269990004825,
+   "Change": 17091.890000346528,
+   "Growth": 1.0134304718202096,
+   "ShareOfGrowth": 0.04767564113798138
+  },
+  {
+   "Country": "Venezuela",
+   "Before": 19863.47997978628,
+   "After": 33888.22897295624,
+   "Change": 14024.74899316996,
+   "Growth": 0.7060569954228564,
+   "ShareOfGrowth": 0.03912024357956203
+  },
+  {
+   "Country": "Switzerland",
+   "Before": 8576.519992765785,
+   "After": 20794.238982317376,
+   "Change": 12217.718989551591,
+   "Growth": 1.4245543646907048,
+   "ShareOfGrowth": 0.03407976449993257
+  },
+  {
+   "Country": "Spain",
+   "Before": 3314.399998149276,
+   "After": 13830.499997551144,
+   "Change": 10516.099999401868,
+   "Growth": 3.172851799805075,
+   "ShareOfGrowth": 0.02933331596051957
+  },
+  {
+   "Country": "Italy",
+   "Before": 3565.629998090118,
+   "After": 11715.824981864916,
+   "Change": 8150.194983774798,
+   "Growth": 2.2857657659769357,
+   "ShareOfGrowth": 0.022733926513869754
+  },
+  {
+   "Country": "Belgium",
+   "Before": 12416.179987476768,
+   "After": 20462.674987265767,
+   "Change": 8046.494999789,
+   "Growth": 0.6480652670873708,
+   "ShareOfGrowth": 0.02244466867155851
+  },
+  {
+   "Country": "Argentina",
+   "Before": 988.1,
+   "After": 7021.0,
+   "Change": 6032.9,
+   "Growth": 6.105556117801842,
+   "ShareOfGrowth": 0.016828002954354167
+  },
+  {
+   "Country": "France",
+   "Before": 34016.259970030194,
+   "After": 39603.75247244466,
+   "Change": 5587.492502414469,
+   "Growth": 0.1642594602504006,
+   "ShareOfGrowth": 0.01558559570655281
+  },
+  {
+   "Country": "Norway",
+   "Before": 1258.4,
+   "After": 4476.75,
+   "Change": 3218.35,
+   "Growth": 2.557493642720915,
+   "ShareOfGrowth": 0.008977175704577523
+  },
+  {
+   "Country": "Poland",
+   "Before": 459.0,
+   "After": 3072.95,
+   "Change": 2613.95,
+   "Growth": 5.694880174291939,
+   "ShareOfGrowth": 0.00729127920610885
+  },
+  {
+   "Country": "Canada",
+   "Before": 22583.38995288164,
+   "After": 24507.749996195733,
+   "Change": 1924.3600433140928,
+   "Growth": 0.08521130119654807,
+   "ShareOfGrowth": 0.005367756219087118
+  },
+  {
+   "Country": "Portugal",
+   "Before": 5584.124988421799,
+   "After": 5621.93748028353,
+   "Change": 37.81249186173136,
+   "Growth": 0.006771426488506593,
+   "ShareOfGrowth": 0.00010547310990745882
+  },
+  {
+   "Country": "Finland",
+   "Before": 7687.559998029471,
+   "After": 6627.292486067862,
+   "Change": -1060.2675119616088,
+   "Growth": -0.1379199007530847,
+   "ShareOfGrowth": -0.0029574806185575257
+  },
+  {
+   "Country": "Denmark",
+   "Before": 16658.79999464452,
+   "After": 14934.937488725409,
+   "Change": -1723.8625059191108,
+   "Growth": -0.10348059322840175,
+   "ShareOfGrowth": -0.004808493981751261
+  },
+  {
+   "Country": "Mexico",
+   "Before": 11652.412494747341,
+   "After": 6408.364994296432,
+   "Change": -5244.047500450909,
+   "Growth": -0.4500396379560725,
+   "ShareOfGrowth": -0.014627599799493029
+  }
+ ],
+ "concentration": {
+  "top10Share": 0.6964,
+  "customersForHalf": 6,
+  "customersGrowing": 62,
+  "customersShrinking": 27
+ }
+}
