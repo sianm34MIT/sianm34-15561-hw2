@@ -4,7 +4,9 @@
 
 An analysis of the Northwind Traders database (a specialty-foods wholesaler, July 1996 – May 1998), published as a single web page. Every number, chart and table on the page is computed by the Python scripts in this repository.
 
-**Live page:** `https://<your-username>.github.io/<repo-name>/` (served from the `docs/` folder by GitHub Pages)
+**Live page:** https://sianm34mit.github.io/sianm34-15561-hw2/ (served from the `docs/` folder by GitHub Pages)
+
+**Repository:** https://github.com/sianm34MIT/sianm34-15561-hw2
 
 ## The questions
 
@@ -21,8 +23,8 @@ The page also has an Overview and four "Explore" tabs (products, suppliers, empl
 Requires Python 3.10 or newer.
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/sianm34MIT/sianm34-15561-hw2.git
+cd sianm34-15561-hw2
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
