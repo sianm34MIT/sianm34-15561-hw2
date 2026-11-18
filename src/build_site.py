@@ -1,3 +1,4 @@
+"""Inline the JSON outputs into the page template and write the site."""
 import json
 
 from build_overview import OUT_JSON
@@ -12,6 +13,19 @@ SITE_OUT = ROOT / "docs" / "index.html"
 
 
 def render(template_path=TEMPLATE, data_path=OUT_JSON):
+    """Insert all analysis data into the page template.
+
+    The four JSON outputs are merged into one object (Q1–Q3 under
+    ``q1``, ``q2``, ``q3``) and replace the ``/*__DATA__*/`` marker;
+    ``</`` is escaped so the data can't close the script tag.
+
+    Args:
+        template_path (pathlib.Path): Template with the data marker.
+        data_path (pathlib.Path): Overview JSON, the base object.
+
+    Returns:
+        str: Page fragment (styles and body, no ``<html>`` wrapper).
+    """
     data = json.loads(data_path.read_text())
     data["q1"] = json.loads(Q1_JSON.read_text())
     data["q2"] = json.loads(Q2_JSON.read_text())
@@ -21,6 +35,18 @@ def render(template_path=TEMPLATE, data_path=OUT_JSON):
 
 
 def wrap_standalone(fragment):
+    """Wrap a page fragment in a full HTML document.
+
+    Everything up to the first ``</style>`` goes in ``<head>``; the rest
+    goes in ``<body>``.
+
+    Args:
+        fragment (str): Output of ``render``.
+
+    Returns:
+        str: Complete HTML document with charset, viewport and
+            description meta tags.
+    """
     split = fragment.index("</style>") + len("</style>")
     head, body = fragment[:split], fragment[split:]
     return (
@@ -37,6 +63,15 @@ def wrap_standalone(fragment):
 
 
 def main():
+    """Build the page and write both outputs.
+
+    Args:
+        None.
+
+    Returns:
+        None. Writes ``site/artifact.html`` (fragment),
+        ``docs/index.html`` (standalone) and ``docs/.nojekyll``.
+    """
     fragment = render()
     ARTIFACT_OUT.write_text(fragment)
     SITE_OUT.parent.mkdir(parents=True, exist_ok=True)

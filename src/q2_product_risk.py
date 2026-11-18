@@ -1,3 +1,4 @@
+"""Q2: measure product concentration and discontinued-product risk."""
 import json
 
 import pandas as pd
@@ -17,6 +18,18 @@ RECENT = (pd.Period("1998-02", freq="M"), LAST_FULL_MONTH)
 
 
 def product_table(t, lines):
+    """Build the per-product revenue table with premium flags.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        tuple[pandas.DataFrame, float]: Products with category,
+            supplier, all-time and recent revenue, shares, ``Premium``,
+            ``Group``, ``Rank`` and ``CumShare``, sorted by revenue; and
+            the list price at or above which a product is premium.
+    """
     p = t["products"].merge(
         t["categories"][["CategoryID", "CategoryName"]], on="CategoryID"
     ).merge(
@@ -48,6 +61,17 @@ def product_table(t, lines):
 
 
 def quarterly_shares(lines, products):
+    """Return premium and discontinued revenue shares by quarter.
+
+    Args:
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+        products (pandas.DataFrame): Output of ``product_table``.
+
+    Returns:
+        pandas.DataFrame: Per quarter (full months only), ``Revenue``,
+            ``PremiumShare``, ``DiscontinuedShare`` and the number of
+            months covered.
+    """
     full = lines[lines["Month"] <= LAST_FULL_MONTH].copy()
     full["Quarter"] = full["OrderDate"].dt.to_period("Q")
     premium_ids = set(products.loc[products["Premium"], "ProductID"])
@@ -70,6 +94,17 @@ def quarterly_shares(lines, products):
 
 
 def star_product(lines):
+    """Summarize monthly sales and buyers of ``STAR_PRODUCT``.
+
+    Args:
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        dict[str, Any]: Monthly revenue and share of each month,
+            months without sales, peak monthly share, order and customer
+            counts, and the top three buyers and their share of the
+            product's revenue.
+    """
     full = lines[lines["Month"] <= LAST_FULL_MONTH]
     star = full[full["ProductName"] == STAR_PRODUCT]
     months = pd.period_range(full["Month"].min(), LAST_FULL_MONTH, freq="M")
@@ -96,6 +131,16 @@ def star_product(lines):
 
 
 def category_exposure(products):
+    """Return each category's active vs discontinued product revenue.
+
+    Args:
+        products (pandas.DataFrame): Output of ``product_table``.
+
+    Returns:
+        pandas.DataFrame: Per category, active and discontinued revenue
+            and product counts and the discontinued share of revenue,
+            sorted by discontinued revenue.
+    """
     c = products.groupby("CategoryName").apply(
         lambda d: pd.Series({
             "Active": d.loc[~d["Discontinued"], "Revenue"].sum(),
@@ -111,6 +156,16 @@ def category_exposure(products):
 
 
 def customer_exposure(lines):
+    """Return each customer's revenue from discontinued products.
+
+    Args:
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        pandas.DataFrame: Per customer, total and discontinued
+            revenue and discontinued share, sorted by discontinued
+            revenue.
+    """
     c = lines.groupby(["CustomerID", "Customer", "CustomerCountry"]).apply(
         lambda d: pd.Series({
             "Total": d["Revenue"].sum(),
@@ -123,6 +178,16 @@ def customer_exposure(lines):
 
 
 def supplier_exposure(products):
+    """Return revenue from discontinued products by supplier.
+
+    Args:
+        products (pandas.DataFrame): Output of ``product_table``.
+
+    Returns:
+        pandas.DataFrame: Per supplier with a discontinued product,
+            the product names, all-time and recent revenue, sorted by
+            all-time revenue.
+    """
     s = products[products["Discontinued"]].groupby("Supplier").agg(
         Products=("ProductName", lambda x: ", ".join(x)),
         Revenue=("Revenue", "sum"),
@@ -132,6 +197,14 @@ def supplier_exposure(products):
 
 
 def main():
+    """Build the Q2 product-risk data and write ``OUT_JSON``.
+
+    Args:
+        None.
+
+    Returns:
+        None. Writes the JSON file and prints its path.
+    """
     t = load_tables()
     lines = build_order_lines(t)
     products, threshold = product_table(t, lines)

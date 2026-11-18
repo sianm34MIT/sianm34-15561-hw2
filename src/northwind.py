@@ -1,3 +1,4 @@
+"""Load the Northwind workbook and build shared order tables."""
 from pathlib import Path
 
 import pandas as pd
@@ -15,6 +16,19 @@ PRODUCT_EXTRA_COLS = [
 
 
 def load_tables(path=DATA_PATH):
+    """Read the workbook sheets used in the analysis.
+
+    Drops the Categories ``Picture`` column and the Product sheet helper
+    columns, and adds a ``Name`` (first + last) column to employees.
+
+    Args:
+        path (pathlib.Path): Northwind workbook (.xlsx).
+
+    Returns:
+        dict[str, pandas.DataFrame]: Tables keyed by ``categories``,
+            ``customers``, ``employees``, ``order_details``, ``orders``,
+            ``shippers``, ``products`` and ``suppliers``.
+    """
     sheets = pd.read_excel(path, sheet_name=None)
     tables = {
         "categories": sheets["Categories"].drop(columns=["Picture"]),
@@ -36,6 +50,20 @@ def load_tables(path=DATA_PATH):
 
 
 def build_order_lines(t):
+    """Return one row per order line with revenue and lookups attached.
+
+    Revenue is net of discount at the charged price:
+    ``UnitPrice * Quantity * (1 - Discount)``.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+
+    Returns:
+        pandas.DataFrame: Order details plus ``GrossRevenue``,
+            ``Revenue``, ``DiscountAmount``, order, product, category,
+            supplier and customer columns, and ``Month`` (monthly
+            Period).
+    """
     lines = t["order_details"].copy()
     lines["GrossRevenue"] = lines["UnitPrice"] * lines["Quantity"]
     lines["Revenue"] = lines["GrossRevenue"] * (1 - lines["Discount"])
@@ -67,6 +95,17 @@ def build_order_lines(t):
 
 
 def build_order_summary(t, lines):
+    """Return one row per order with totals and shipping measures.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        lines (pandas.DataFrame): Output of ``build_order_lines``.
+
+    Returns:
+        pandas.DataFrame: Orders sheet plus ``Revenue``, ``Items``
+            (units), ``DaysToShip``, ``Shipped``, ``Late`` (shipped
+            after the required date) and ``Month`` (monthly Period).
+    """
     totals = lines.groupby("OrderID").agg(
         Revenue=("Revenue", "sum"), Items=("Quantity", "sum")
     )

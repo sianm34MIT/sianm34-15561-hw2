@@ -1,3 +1,4 @@
+"""Q1: decompose revenue growth and measure customer concentration."""
 import json
 
 import numpy as np
@@ -17,12 +18,33 @@ AFTER = ("1997-07-01", "1998-04-30")
 
 
 def in_window(dates, window):
+    """Flag dates that fall inside a window, inclusive of both days.
+
+    Args:
+        dates (pandas.Series): Datetimes to test.
+        window (tuple[str, str]): Start and end dates (``YYYY-MM-DD``);
+            the end day is included through 23:59:59.
+
+    Returns:
+        pandas.Series: Boolean mask aligned with ``dates``.
+    """
     start, end = (pd.Timestamp(d) for d in window)
     return (dates >= start) & (dates <= end + pd.Timedelta(days=1)
                                - pd.Timedelta(seconds=1))
 
 
 def period_metrics(orders, lines):
+    """Compute revenue and its components for one window.
+
+    Args:
+        orders (pandas.DataFrame): Orders in the window.
+        lines (pandas.DataFrame): Order lines in the same window.
+
+    Returns:
+        dict[str, float]: Revenue, orders, active customers, orders per
+            customer, average order value, lines per order, units per
+            line, gross price per unit, and discount rate.
+    """
     revenue = orders["Revenue"].sum()
     n_orders = len(orders)
     customers = orders["CustomerID"].nunique()
@@ -41,6 +63,20 @@ def period_metrics(orders, lines):
 
 
 def decompose(before, after):
+    """Split revenue growth into its three multiplicative drivers.
+
+    Revenue = customers x orders per customer x average order value, so
+    each factor's share of growth is its log ratio over the log ratio of
+    revenue; the shares sum to 1.
+
+    Args:
+        before (dict[str, float]): Earlier window's ``period_metrics``.
+        after (dict[str, float]): Later window's ``period_metrics``.
+
+    Returns:
+        list[dict[str, Any]]: Per driver, its name, fractional change,
+            share of growth, and dollars of growth attributed to it.
+    """
     factors = {
         "Active customers": after["customers"] / before["customers"],
         "Orders per customer": (after["ordersPerCustomer"]
@@ -63,6 +99,16 @@ def decompose(before, after):
 
 
 def monthly_drivers(orders):
+    """Return monthly orders, customers, revenue and order value.
+
+    Args:
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        pandas.DataFrame: One row per full month (May 1998
+            excluded) with ``Orders``, ``Customers``, ``Revenue``,
+            ``AvgOrderValue`` and ``Month`` as a string.
+    """
     full = orders[orders["Month"] <= LAST_FULL_MONTH]
     m = full.groupby("Month").agg(
         Orders=("OrderID", "count"),
@@ -75,6 +121,19 @@ def monthly_drivers(orders):
 
 
 def customer_contribution(t, orders):
+    """Measure each customer's revenue change between the Q1 windows.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        tuple[pandas.DataFrame, pandas.DataFrame]: Per-customer revenue
+            and orders before and after, change, segment and cumulative
+            share of growth, sorted by change; and the same totals by
+            segment with each segment's share of growth and of
+            after-window revenue.
+    """
     first_order = orders.groupby("CustomerID")["OrderDate"].min()
     before = orders[in_window(orders["OrderDate"], BEFORE)]
     after = orders[in_window(orders["OrderDate"], AFTER)]
@@ -90,6 +149,18 @@ def customer_contribution(t, orders):
     c["FirstOrder"] = first_order.reindex(c.index)
 
     def segment(row):
+        """Classify a customer by when they bought.
+
+        Args:
+            row (pandas.Series): Customer row with ``Before``,
+                ``After`` and ``FirstOrder``.
+
+        Returns:
+            str: ``Returning`` if bought in both windows; ``New`` if
+                the first order came after the before window;
+                ``Returning after a gap`` if bought after and earlier,
+                but not in the before window; else ``Lapsed``.
+        """
         if row["Before"] > 0 and row["After"] > 0:
             return "Returning"
         if row["After"] > 0 and row["FirstOrder"] > pd.Timestamp(BEFORE[1]):
@@ -115,7 +186,17 @@ def customer_contribution(t, orders):
 
 
 def country_contribution(t, orders):
-    """Revenue change by the customer's registered country."""
+    """Measure revenue change by the customer's registered country.
+
+    Args:
+        t (dict[str, pandas.DataFrame]): Tables from ``load_tables``.
+        orders (pandas.DataFrame): Output of ``build_order_summary``.
+
+    Returns:
+        pandas.DataFrame: Per country, revenue before and after, change,
+            growth rate (NaN if no before revenue) and share of total
+            growth, sorted by change.
+    """
     country = t["customers"].set_index("CustomerID")["Country"]
     o = orders.assign(Country=orders["CustomerID"].map(country))
     before = o[in_window(o["OrderDate"], BEFORE)]
@@ -132,6 +213,14 @@ def country_contribution(t, orders):
 
 
 def main():
+    """Build the Q1 growth-driver data and write ``OUT_JSON``.
+
+    Args:
+        None.
+
+    Returns:
+        None. Writes the JSON file and prints its path.
+    """
     t = load_tables()
     lines = build_order_lines(t)
     orders = build_order_summary(t, lines)
