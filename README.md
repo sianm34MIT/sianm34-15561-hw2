@@ -66,6 +66,17 @@ It ends with `FAILURES: none` when everything matches.
 - **Country** means the customer's registered country, not the ship-to country.
 - **Late** means shipped after the required date. 21 unshipped orders are excluded from shipping measures.
 
+## AI use disclosure
+
+This project was built with Claude (Anthropic). Full transcripts of both sessions are in [`ai-disclosure/`](ai-disclosure/):
+
+| | Session | Covers |
+|---|---|---|
+| 1 | [Claude (Cowork), Nov 11–18](ai-disclosure/1_claude_cowork_session_analysis.pdf) | Data checks, choosing the questions, the analysis scripts, the audit, and the webpage design |
+| 2 | Claude Code, Nov 18–21 ([PDF](ai-disclosure/2_claude_code_session_docstrings_publishing.pdf), [Markdown](ai-disclosure/2_claude_code_session_docstrings_publishing.md)) | Restoring the project into this repository, docstrings with the course `python-docstrings` skill, and publishing to GitHub Pages |
+
+The reflection report is not part of either session.
+
 ## Repository layout
 
 ```
@@ -81,4 +92,5 @@ site/template.html       page layout, styles and chart code
 site/data/*.json         analysis outputs used by the page
 docs/index.html          the published page (GitHub Pages)
 audit/audit.py           independent check of headline figures
+ai-disclosure/           transcripts of the AI sessions used for this project
 ```
